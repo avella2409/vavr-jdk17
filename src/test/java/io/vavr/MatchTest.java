@@ -30,7 +30,7 @@ import io.vavr.collection.List;
 import io.vavr.collection.Set;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
-import io.vavr.control.Option.Some;
+import io.vavr.control.Some;
 import io.vavr.control.Validation;
 import org.junit.Test;
 

@@ -26,9 +26,9 @@
  */
 package io.vavr;
 
-import io.vavr.control.Either;
-import io.vavr.control.Try;
-import io.vavr.control.Validation;
+import io.vavr.collection.Cons;
+import io.vavr.collection.Nil;
+import io.vavr.control.*;
 import io.vavr.collection.List;
 import io.vavr.concurrent.Future;
 import io.vavr.control.Option;
@@ -57,8 +57,8 @@ class $ {
     // -- io.vavr.collection
 
     // List
-    static <T> Tuple2<T, List<T>> Cons(List.Cons<T> cons) { return Tuple.of(cons.head(), cons.tail()); }
-    static <T> Tuple0 Nil(List.Nil<T> nil) { return Tuple.empty(); }
+    static <T> Tuple2<T, List<T>> Cons(Cons<T> cons) { return Tuple.of(cons.head(), cons.tail()); }
+    static <T> Tuple0 Nil(Nil<T> nil) { return Tuple.empty(); }
 
     // -- io.vavr.concurrent
 
@@ -67,19 +67,19 @@ class $ {
     // -- io.vavr.control
 
     // Either
-    static <L, R> Tuple1<R> Right(Either.Right<L, R> right) { return Tuple.of(right.get()); }
-    static <L, R> Tuple1<L> Left(Either.Left<L, R> left) { return Tuple.of(left.getLeft()); }
+    static <L, R> Tuple1<R> Right(Right<L, R> right) { return Tuple.of(right.get()); }
+    static <L, R> Tuple1<L> Left(Left<L, R> left) { return Tuple.of(left.getLeft()); }
 
     // Option
-    static <T> Tuple1<T> Some(Option.Some<T> some) { return Tuple.of(some.get()); }
-    static <T> Tuple0 None(Option.None<T> none) { return Tuple.empty(); }
+    static <T> Tuple1<T> Some(Some<T> some) { return Tuple.of(some.get()); }
+    static <T> Tuple0 None(None<T> none) { return Tuple.empty(); }
 
     // Try
-    static <T> Tuple1<T> Success(Try.Success<T> success) { return Tuple.of(success.get()); }
-    static <T> Tuple1<Throwable> Failure(Try.Failure<T> failure) { return Tuple.of(failure.getCause()); }
+    static <T> Tuple1<T> Success(Success<T> success) { return Tuple.of(success.get()); }
+    static <T> Tuple1<Throwable> Failure(Failure<T> failure) { return Tuple.of(failure.getCause()); }
 
     // Validation
-    static <E, T> Tuple1<T> Valid(Validation.Valid<E, T> valid) { return Tuple.of(valid.get()); }
-    static <E, T> Tuple1<E> Invalid(Validation.Invalid<E, T> invalid) { return Tuple.of(invalid.getError()); }
+    static <E, T> Tuple1<T> Valid(Valid<E, T> valid) { return Tuple.of(valid.get()); }
+    static <E, T> Tuple1<E> Invalid(Invalid<E, T> invalid) { return Tuple.of(invalid.getError()); }
 
 }

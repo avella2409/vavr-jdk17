@@ -81,25 +81,12 @@ public class EitherTest extends AbstractValueTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
-    public void shouldBimapLeftProjection() {
-        final Either.LeftProjection<Integer, String> actual = Either.<Integer, String> left(1).left().bimap(i -> i + 1, s -> s + "1");
-        final Either<Integer, String> expected = Either.left(2);
-        assertThat(actual.get()).isEqualTo(expected.getLeft());
-    }
 
     @Test
     public void shouldBimapRight() {
         final Either<Integer, String> actual = Either.<Integer, String> right("1").bimap(i -> i + 1, s -> s + "1");
         final Either<Integer, String> expected = Either.right("11");
         assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    public void shouldBimapRightProjection() {
-        final Either.RightProjection<Integer, String> actual = Either.<Integer, String> right("1").right().bimap(i -> i + 1, s -> s + "1");
-        final Either<Integer, String> expected = Either.right("11");
-        assertThat(actual.get()).isEqualTo(expected.get());
     }
 
     @Test
@@ -525,7 +512,7 @@ public class EitherTest extends AbstractValueTest {
 
     @Test
     public void shouldConvertLeftToString() {
-        assertThat(Either.left(1).toString()).isEqualTo("Left(1)");
+        assertThat(Either.left(1).toString()).isEqualTo("Left[value=1]");
     }
 
     // -- Right
@@ -606,7 +593,7 @@ public class EitherTest extends AbstractValueTest {
 
     @Test
     public void shouldConvertRightToString() {
-        assertThat(Either.right(1).toString()).isEqualTo("Right(1)");
+        assertThat(Either.right(1).toString()).isEqualTo("Right[value=1]");
     }
 
 

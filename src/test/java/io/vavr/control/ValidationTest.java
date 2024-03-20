@@ -75,14 +75,14 @@ public class ValidationTest extends AbstractValueTest {
 
     @Test
     public void shouldCreateSuccessWhenCallingValidationSuccess() {
-        assertThat(Validation.valid(1) instanceof Validation.Valid).isTrue();
+        assertThat(Validation.valid(1) instanceof Valid).isTrue();
     }
 
     // -- Validation.invalid
 
     @Test
     public void shouldCreateFailureWhenCallingValidationFailure() {
-        assertThat(Validation.invalid("error") instanceof Validation.Invalid).isTrue();
+        assertThat(Validation.invalid("error") instanceof Invalid).isTrue();
     }
 
     // -- Validation.fromEither
@@ -389,13 +389,13 @@ public class ValidationTest extends AbstractValueTest {
 
     @Test
     public void shouldSwapSuccessToFailure() {
-        assertThat(valid().swap() instanceof Validation.Invalid).isTrue();
+        assertThat(valid().swap() instanceof Invalid).isTrue();
         assertThat(valid().swap().getError()).isEqualTo(OK);
     }
 
     @Test
     public void shouldSwapFailureToSuccess() {
-        assertThat(invalid().swap() instanceof Validation.Valid).isTrue();
+        assertThat(invalid().swap() instanceof Valid).isTrue();
         assertThat(invalid().swap().get()).isEqualTo(ERRORS);
     }
 
@@ -422,7 +422,7 @@ public class ValidationTest extends AbstractValueTest {
     public void shouldMapOnlySuccessValue() {
         Validation<Seq<String>, String> validValidation = valid();
         Validation<Integer, Integer> validMapping = validValidation.bimap(Seq::length, String::length);
-        assertThat(validMapping instanceof Validation.Valid).isTrue();
+        assertThat(validMapping instanceof Valid).isTrue();
         assertThat(validMapping.get()).isEqualTo(2);
     }
 
@@ -430,7 +430,7 @@ public class ValidationTest extends AbstractValueTest {
     public void shouldMapOnlyFailureValue() {
         Validation<Seq<String>, String> invalidValidation = invalid();
         Validation<Integer, Integer> invalidMapping = invalidValidation.bimap(Seq::length, String::length);
-        assertThat(invalidMapping instanceof Validation.Invalid).isTrue();
+        assertThat(invalidMapping instanceof Invalid).isTrue();
         assertThat(invalidMapping.getError()).isEqualTo(3);
     }
 
@@ -595,8 +595,8 @@ public class ValidationTest extends AbstractValueTest {
         Validation<String, String> v1 = Validation.valid("test");
         Validation<String, String> v2 = Validation.invalid("error");
 
-        assertThat(v1.toString()).isEqualTo("Valid(test)");
-        assertThat(v2.toString()).isEqualTo("Invalid(error)");
+        assertThat(v1.toString()).isEqualTo("Valid[value=test]");
+        assertThat(v2.toString()).isEqualTo("Invalid[error=error]");
     }
 
     @Test

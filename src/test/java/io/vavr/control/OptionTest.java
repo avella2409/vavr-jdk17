@@ -145,7 +145,7 @@ public class OptionTest extends AbstractValueTest {
     public void shouldConvertListOfNonEmptyOptionsToOptionOfList() {
         final List<Option<String>> options = Arrays.asList(Option.of("a"), Option.of("b"), Option.of("c"));
         final Option<Seq<String>> reducedOption = Option.sequence(options);
-        assertThat(reducedOption instanceof Option.Some).isTrue();
+        assertThat(reducedOption instanceof Some).isTrue();
         assertThat(reducedOption.get().size()).isEqualTo(3);
         assertThat(reducedOption.get().mkString()).isEqualTo("abc");
     }
@@ -154,14 +154,14 @@ public class OptionTest extends AbstractValueTest {
     public void shouldConvertListOfEmptyOptionsToOptionOfList() {
         final List<Option<String>> options = Arrays.asList(Option.none(), Option.none(), Option.none());
         final Option<Seq<String>> option = Option.sequence(options);
-        assertThat(option instanceof Option.None).isTrue();
+        assertThat(option instanceof None).isTrue();
     }
 
     @Test
     public void shouldConvertListOfMixedOptionsToOptionOfList() {
         final List<Option<String>> options = Arrays.asList(Option.of("a"), Option.none(), Option.of("c"));
         final Option<Seq<String>> option = Option.sequence(options);
-        assertThat(option instanceof Option.None).isTrue();
+        assertThat(option instanceof None).isTrue();
     }
 
     // -- traverse
@@ -170,7 +170,7 @@ public class OptionTest extends AbstractValueTest {
     public void shouldTraverseListOfNonEmptyOptionsToOptionOfList() {
         final List<String> options = Arrays.asList("a", "b", "c");
         final Option<Seq<String>> reducedOption = Option.traverse(options, Option::of);
-        assertThat(reducedOption instanceof Option.Some).isTrue();
+        assertThat(reducedOption instanceof Some).isTrue();
         assertThat(reducedOption.get().size()).isEqualTo(3);
         assertThat(reducedOption.get().mkString()).isEqualTo("abc");
     }
@@ -179,7 +179,7 @@ public class OptionTest extends AbstractValueTest {
     public void shouldTraverseListOfEmptyOptionsToOptionOfList() {
         final List<Option<String>> options = Arrays.asList(Option.none(), Option.none(), Option.none());
         final Option<Seq<String>> option = Option.traverse(options, Function.identity());
-        assertThat(option instanceof Option.None).isTrue();
+        assertThat(option instanceof None).isTrue();
     }
 
     @Test
@@ -187,7 +187,7 @@ public class OptionTest extends AbstractValueTest {
         final List<String> options = Arrays.asList("a", "b", "c");
         final Option<Seq<String>> option =
             Option.traverse(options, x -> x.equals("b") ? Option.none() : Option.of(x));
-        assertThat(option instanceof Option.None).isTrue();
+        assertThat(option instanceof None).isTrue();
     }
 
     // -- get
@@ -639,7 +639,7 @@ public class OptionTest extends AbstractValueTest {
 
     @Test
     public void shouldHashNone() {
-        assertThat(Option.none().hashCode()).isEqualTo(Objects.hash());
+        assertThat(Option.none().hashCode()).isEqualTo(0);
     }
 
     @Test
@@ -651,12 +651,12 @@ public class OptionTest extends AbstractValueTest {
 
     @Test
     public void shouldConvertSomeToString() {
-        assertThat(Option.some(1).toString()).isEqualTo("Some(1)");
+        assertThat(Option.some(1).toString()).isEqualTo("Some[value=1]");
     }
 
     @Test
     public void shouldConvertNoneToString() {
-        assertThat(Option.none().toString()).isEqualTo("None");
+        assertThat(Option.none().toString()).isEqualTo("None[]");
     }
 
     // -- serialization

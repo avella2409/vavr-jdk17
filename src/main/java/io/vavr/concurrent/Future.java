@@ -28,11 +28,10 @@ package io.vavr.concurrent;
 
 import io.vavr.*;
 import io.vavr.collection.Iterator;
+import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
-import io.vavr.collection.List;
+import io.vavr.control.*;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -146,7 +145,7 @@ public interface Future<T> extends Iterable<T>, Value<T> {
 
     /**
      * Returns a {@code Future} that eventually succeeds with the first result of the given {@code Future}s which
-     * matches the given {@code predicate}. If no result matches, the {@code Future} will contain {@link Option.None}.
+     * matches the given {@code predicate}. If no result matches, the {@code Future} will contain {@link None}.
      * <p>
      * The returned {@code Future} is backed by the {@link #DEFAULT_EXECUTOR}.
      *
@@ -162,7 +161,7 @@ public interface Future<T> extends Iterable<T>, Value<T> {
 
     /**
      * Returns a {@code Future} that eventually succeeds with the first result of the given {@code Future}s which
-     * matches the given {@code predicate}. If no result matches, the {@code Future} will contain {@link Option.None}.
+     * matches the given {@code predicate}. If no result matches, the {@code Future} will contain {@link None}.
      * <p>
      * The returned {@code Future} is backed by the given {@link Executor}.
      *
@@ -1044,7 +1043,7 @@ public interface Future<T> extends Iterable<T>, Value<T> {
     Future<T> onComplete(Consumer<? super Try<T>> action);
 
     /**
-     * Performs the action once the Future is complete and the result is a {@link Try.Failure}. Please note that the
+     * Performs the action once the Future is complete and the result is a {@link Failure}. Please note that the
      * future is also a failure when it was cancelled.
      *
      * @param action An action to be performed when this future failed.
@@ -1057,7 +1056,7 @@ public interface Future<T> extends Iterable<T>, Value<T> {
     }
 
     /**
-     * Performs the action once the Future is complete and the result is a {@link Try.Success}.
+     * Performs the action once the Future is complete and the result is a {@link Success}.
      *
      * @param action An action to be performed when this future succeeded.
      * @return this Future
@@ -1203,7 +1202,7 @@ public interface Future<T> extends Iterable<T>, Value<T> {
         return run(executor(), complete ->
             onComplete(res1 -> {
                 if (res1.isFailure()) {
-                    complete.with((Try.Failure<R>) res1);
+                    complete.with((Failure<R>) res1);
                 } else {
                     that.onComplete(res2 -> {
                         final Try<R> result = res1.flatMap(t -> res2.map(u -> combinator.apply(t, u)));
@@ -1247,7 +1246,7 @@ public interface Future<T> extends Iterable<T>, Value<T> {
      * Gets the value if the computation result is a {@code Success} or throws if it was a {@code Failure}.
      * Waits for the result if necessary by blocking the current thread.
      * <p>
-     * <strong>IMPORTANT! If the computation result is a {@link Try.Failure}, the underlying {@code cause} of type {@link Throwable} is thrown.</strong>
+     * <strong>IMPORTANT! If the computation result is a {@link Failure}, the underlying {@code cause} of type {@link Throwable} is thrown.</strong>
      *
      * @return The value of this {@code Future}.
      */

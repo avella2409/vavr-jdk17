@@ -698,7 +698,7 @@ public class FutureTest extends AbstractValueTest {
 
     @Test
     public void shouldFoldNonEmptyIterableOfFailingFutures() {
-        final Seq<Future<Integer>> futures = Stream.from(1).map(i -> Future.<Integer> of(zZz(new Error()))).take(5);
+        final Stream<Future<Integer>> futures = Stream.from(1).map(i -> Future.<Integer> of(zZz(new Error()))).take(5);
         final Future<Integer> testee = Future.fold(futures, 0, (a, b) -> a + b).await();
         assertFailed(testee, Error.class);
     }
@@ -1044,9 +1044,21 @@ public class FutureTest extends AbstractValueTest {
         assertThat(Future.successful(1).toTry()).isEqualTo(Try.success(1));
     }
 
+    // Align with scala, exceptions are not equal
     @Test
     public void shouldConvertFailedFutureToTry() {
-        assertThat(Future.failed(new Error("!")).toTry()).isEqualTo(Try.failure(new Error("!")));
+        var failure = Future.failed(new Error("!")).toTry();
+        assertThat(failure.isEmpty()).isTrue();
+        assertThat(failure.getCause()).isInstanceOf(Error.class);
+        assertThat(failure.getCause().getMessage()).isEqualTo("!");
+    }
+
+    @Override
+    @Test
+    public void shouldPeekNil() {
+        var before = empty();
+        var after = before.peek(t -> {});
+        assertThat(before == after).isTrue();
     }
 
     // -- transform()
