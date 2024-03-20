@@ -40,13 +40,11 @@ plugins {
     id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
 }
 
-ext.ammoniteScalaVersion = '2.13'
-ext.ammoniteVersion = '2.3.8'
 ext.assertjVersion = '3.19.0'
 ext.junitVersion = '4.13.2'
 
 // JAVA_VERSION used for CI build matrix, may be provided as env variable
-def javaVersion = Integer.parseInt(System.getenv('JAVA_VERSION') ?: '8')
+def javaVersion = Integer.parseInt(System.getenv('JAVA_VERSION') ?: '17')
 
 repositories {
     mavenCentral()
@@ -68,30 +66,6 @@ java {
     withSourcesJar()
     withJavadocJar()
 }
-
-sourceSets.main.java.srcDirs += ['src-gen/main/java']
-sourceSets.test.java.srcDirs += ['src-gen/test/java']
-
-task generateSources() {
-    doLast {
-        delete 'src-gen'
-        def ammoniteDir = file("generator/bin")
-        if (!ammoniteDir.exists()) {
-            ammoniteDir.mkdirs()
-        }
-        def ammoniteJar = new File(ammoniteDir, "amm-${ammoniteScalaVersion}-${ammoniteVersion}.jar")
-        if (!ammoniteJar.exists()) {
-            def ammoniteReleaseUrl = "https://github.com/lihaoyi/Ammonite/releases/download/${ammoniteVersion}/${ammoniteScalaVersion}-${ammoniteVersion}"
-            ant.get(src: ammoniteReleaseUrl, dest: ammoniteJar)
-        }
-        javaexec {
-            classpath = project.files(ammoniteJar)
-            args = ["generator/Generator.sc"]
-        }
-    }
-}
-
-compileJava.dependsOn 'generateSources'
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
