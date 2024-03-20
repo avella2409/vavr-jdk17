@@ -43,9 +43,7 @@ import java.util.stream.Collector;
  *
  * @param <K> Key type
  * @param <V> Value type
- * @deprecated marked for removal from vavr core lib, might be moved to an extended collections module
  */
-@Deprecated
 public final class HashMultimap<K, V> extends AbstractMultimap<K, V, HashMultimap<K, V>> implements Serializable {
 
     private static final long serialVersionUID = 1L;

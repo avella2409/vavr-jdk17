@@ -32,10 +32,7 @@ package io.vavr;
 
 import io.vavr.collection.*;
 import io.vavr.concurrent.Future;
-import io.vavr.control.Either;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
-import io.vavr.control.Validation;
+import io.vavr.control.*;
 
 import java.io.PrintStream;
 import java.util.Comparator;
@@ -64,7 +61,7 @@ import static io.vavr.API.Match.*;
  * // lazily evaluated
  * Iterator&lt;R&gt; result = For(iterable1, iterable2, ..., iterableN).yield(f);
  * </code></pre>
- *
+ * <p>
  * or
  *
  * <pre><code>
@@ -76,7 +73,7 @@ import static io.vavr.API.Match.*;
  *         )
  *     );
  * </code></pre>
- *
+ * <p>
  * instead of
  *
  * <pre><code>
@@ -92,7 +89,7 @@ import static io.vavr.API.Match.*;
  *     }
  * }
  * </code></pre>
- *
+ * <p>
  * Please note that values like Option, Try, Future, etc. are also iterable.
  * <p>
  * Given a suitable function
@@ -102,7 +99,7 @@ import static io.vavr.API.Match.*;
  * <pre><code>
  * { f(v1, v2, ..., vN) | v1 &isin; iterable1, ... vN &isin; iterableN }
  * </code></pre>
- *
+ * <p>
  * As with all Vavr Values, the result of a For-comprehension can be converted
  * to standard Java library and Vavr types.
  */
@@ -132,9 +129,7 @@ public final class API {
      * @return Nothing - this methods always throws.
      * @throws NotImplementedError when this methods is called
      * @see NotImplementedError#NotImplementedError()
-     * @deprecated marked for removal
      */
-    @Deprecated
     public static <T> T TODO() {
         throw new NotImplementedError();
     }
@@ -157,9 +152,7 @@ public final class API {
      * @return Nothing - this methods always throws.
      * @throws NotImplementedError when this methods is called
      * @see NotImplementedError#NotImplementedError(String)
-     * @deprecated marked for removal
      */
-    @Deprecated
     public static <T> T TODO(String msg) {
         throw new NotImplementedError(msg);
     }
@@ -204,7 +197,7 @@ public final class API {
      *
      * @param objs The objects to be printed
      */
-    public static void println(Object ...objs) {
+    public static void println(Object... objs) {
         println(Iterator.of(objs).map(String::valueOf).mkString(" "));
     }
 
@@ -491,8 +484,8 @@ public final class API {
     /**
      * Alias for {@link CheckedFunction0#unchecked}
      *
-     * @param <R>  return type
-     * @param f    A method reference
+     * @param <R> return type
+     * @param f   A method reference
      * @return An unchecked wrapper of supplied {@link CheckedFunction0}
      */
     public static <R> Function0<R> unchecked(CheckedFunction0<R> f) {
@@ -636,7 +629,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object)}
-     *
+     * <p>
      * Creates a tuple of one element.
      *
      * @param <T1> type of the 1st element
@@ -649,7 +642,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object)}
-     *
+     * <p>
      * Creates a tuple of two elements.
      *
      * @param <T1> type of the 1st element
@@ -664,7 +657,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object, Object)}
-     *
+     * <p>
      * Creates a tuple of three elements.
      *
      * @param <T1> type of the 1st element
@@ -681,7 +674,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object, Object, Object)}
-     *
+     * <p>
      * Creates a tuple of 4 elements.
      *
      * @param <T1> type of the 1st element
@@ -700,7 +693,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object, Object, Object, Object)}
-     *
+     * <p>
      * Creates a tuple of 5 elements.
      *
      * @param <T1> type of the 1st element
@@ -721,7 +714,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object, Object, Object, Object, Object)}
-     *
+     * <p>
      * Creates a tuple of 6 elements.
      *
      * @param <T1> type of the 1st element
@@ -744,7 +737,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object, Object, Object, Object, Object, Object)}
-     *
+     * <p>
      * Creates a tuple of 7 elements.
      *
      * @param <T1> type of the 1st element
@@ -769,7 +762,7 @@ public final class API {
 
     /**
      * Alias for {@link Tuple#of(Object, Object, Object, Object, Object, Object, Object, Object)}
-     *
+     * <p>
      * Creates a tuple of 8 elements.
      *
      * @param <T1> type of the 1st element
@@ -891,7 +884,7 @@ public final class API {
      *
      * @param <T>   type of the value
      * @param value A value
-     * @return {@link Option.Some} if value is not {@code null}, {@link Option.None} otherwise
+     * @return {@link Some} if value is not {@code null}, {@link None} otherwise
      */
     public static <T> Option<T> Option(T value) {
         return Option.of(value);
@@ -925,7 +918,7 @@ public final class API {
      *
      * @param <T>      Component type
      * @param supplier A checked supplier
-     * @return {@link Try.Success} if no exception occurs, otherwise {@link Try.Failure} if an
+     * @return {@link Success} if no exception occurs, otherwise {@link Failure} if an
      * exception occurs calling {@code supplier.get()}.
      */
     public static <T> Try<T> Try(CheckedFunction0<? extends T> supplier) {
@@ -1735,8 +1728,8 @@ public final class API {
      * @param v8  The value of the 8th pair
      * @param k9  The key of the 9th pair
      * @param v9  The value of the 9th pair
-     * @param k10  The key of the 10th pair
-     * @param v10  The value of the 10th pair
+     * @param k10 The key of the 10th pair
+     * @param v10 The value of the 10th pair
      * @return A new {@link HashMap} instance containing the given entries
      */
     public static <K, V> Map<K, V> Map(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
@@ -1983,13 +1976,14 @@ public final class API {
      * @param v8  The value of the 8th pair
      * @param k9  The key of the 9th pair
      * @param v9  The value of the 9th pair
-     * @param k10  The key of the 10th pair
-     * @param v10  The value of the 10th pair
+     * @param k10 The key of the 10th pair
+     * @param v10 The value of the 10th pair
      * @return A new {@link LinkedHashMap} instance containing the given entries
      */
     public static <K, V> Map<K, V> LinkedMap(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
         return LinkedHashMap.of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10);
     }
+
     /**
      * Alias for {@link TreeMap#empty()}
      *
@@ -2286,8 +2280,8 @@ public final class API {
      * @param v8  The value of the 8th pair
      * @param k9  The key of the 9th pair
      * @param v9  The value of the 9th pair
-     * @param k10  The key of the 10th pair
-     * @param v10  The value of the 10th pair
+     * @param k10 The key of the 10th pair
+     * @param v10 The value of the 10th pair
      * @return A new {@link TreeMap} instance containing the given entries
      */
     public static <K extends Comparable<? super K>, V> SortedMap<K, V> SortedMap(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
@@ -2332,15 +2326,12 @@ public final class API {
      *             .yield(reply -&gt; person + ", " + tweet + ", " + reply)));
      * </code></pre>
      *
-     * @param ts A {@link Iterable}
-     * @param f A function {@code T -> Iterable<U>}
+     * @param ts  A {@link Iterable}
+     * @param f   A function {@code T -> Iterable<U>}
      * @param <T> element type of {@code ts}
      * @param <U> component type of the resulting {@code Iterator}
      * @return A new Iterator
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T, U> Iterator<U> For(Iterable<T> ts, Function<? super T, ? extends Iterable<U>> f) {
         return Iterator.ofAll(ts).flatMap(f);
     }
@@ -2348,14 +2339,10 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of one Iterable.
      *
-     * @param ts1 the 1st Iterable
-
+     * @param ts1  the 1st Iterable
      * @param <T1> right component type of the 1st Iterable
      * @return a new {@code For}-comprehension of arity 1
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1> For1<T1> For(Iterable<T1> ts1) {
         Objects.requireNonNull(ts1, "ts1 is null");
         return new For1<>(ts1);
@@ -2364,16 +2351,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of two Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @return a new {@code For}-comprehension of arity 2
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2> For2<T1, T2> For(Iterable<T1> ts1, Iterable<T2> ts2) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2383,18 +2366,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of three Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-     * @param ts3 the 3rd Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
+     * @param ts3  the 3rd Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @param <T3> right component type of the 3rd Iterable
      * @return a new {@code For}-comprehension of arity 3
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3> For3<T1, T2, T3> For(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2405,20 +2384,16 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 4 Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-     * @param ts3 the 3rd Iterable
-     * @param ts4 the 4th Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
+     * @param ts3  the 3rd Iterable
+     * @param ts4  the 4th Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @param <T3> right component type of the 3rd Iterable
      * @param <T4> right component type of the 4th Iterable
      * @return a new {@code For}-comprehension of arity 4
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4> For4<T1, T2, T3, T4> For(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2430,22 +2405,18 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 5 Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-     * @param ts3 the 3rd Iterable
-     * @param ts4 the 4th Iterable
-     * @param ts5 the 5th Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
+     * @param ts3  the 3rd Iterable
+     * @param ts4  the 4th Iterable
+     * @param ts5  the 5th Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @param <T3> right component type of the 3rd Iterable
      * @param <T4> right component type of the 4th Iterable
      * @param <T5> right component type of the 5th Iterable
      * @return a new {@code For}-comprehension of arity 5
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5> For5<T1, T2, T3, T4, T5> For(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2458,13 +2429,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 6 Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-     * @param ts3 the 3rd Iterable
-     * @param ts4 the 4th Iterable
-     * @param ts5 the 5th Iterable
-     * @param ts6 the 6th Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
+     * @param ts3  the 3rd Iterable
+     * @param ts4  the 4th Iterable
+     * @param ts5  the 5th Iterable
+     * @param ts6  the 6th Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @param <T3> right component type of the 3rd Iterable
@@ -2472,10 +2442,7 @@ public final class API {
      * @param <T5> right component type of the 5th Iterable
      * @param <T6> right component type of the 6th Iterable
      * @return a new {@code For}-comprehension of arity 6
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6> For6<T1, T2, T3, T4, T5, T6> For(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2489,14 +2456,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 7 Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-     * @param ts3 the 3rd Iterable
-     * @param ts4 the 4th Iterable
-     * @param ts5 the 5th Iterable
-     * @param ts6 the 6th Iterable
-     * @param ts7 the 7th Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
+     * @param ts3  the 3rd Iterable
+     * @param ts4  the 4th Iterable
+     * @param ts5  the 5th Iterable
+     * @param ts6  the 6th Iterable
+     * @param ts7  the 7th Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @param <T3> right component type of the 3rd Iterable
@@ -2505,10 +2471,7 @@ public final class API {
      * @param <T6> right component type of the 6th Iterable
      * @param <T7> right component type of the 7th Iterable
      * @return a new {@code For}-comprehension of arity 7
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7> For7<T1, T2, T3, T4, T5, T6, T7> For(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6, Iterable<T7> ts7) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2523,15 +2486,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 8 Iterables.
      *
-     * @param ts1 the 1st Iterable
-     * @param ts2 the 2nd Iterable
-     * @param ts3 the 3rd Iterable
-     * @param ts4 the 4th Iterable
-     * @param ts5 the 5th Iterable
-     * @param ts6 the 6th Iterable
-     * @param ts7 the 7th Iterable
-     * @param ts8 the 8th Iterable
-
+     * @param ts1  the 1st Iterable
+     * @param ts2  the 2nd Iterable
+     * @param ts3  the 3rd Iterable
+     * @param ts4  the 4th Iterable
+     * @param ts5  the 5th Iterable
+     * @param ts6  the 6th Iterable
+     * @param ts7  the 7th Iterable
+     * @param ts8  the 8th Iterable
      * @param <T1> right component type of the 1st Iterable
      * @param <T2> right component type of the 2nd Iterable
      * @param <T3> right component type of the 3rd Iterable
@@ -2541,10 +2503,7 @@ public final class API {
      * @param <T7> right component type of the 7th Iterable
      * @param <T8> right component type of the 8th Iterable
      * @return a new {@code For}-comprehension of arity 8
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7, T8> For8<T1, T2, T3, T4, T5, T6, T7, T8> For(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6, Iterable<T7> ts7, Iterable<T8> ts8) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2560,14 +2519,10 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of one Option.
      *
-     * @param ts1 the 1st Option
-
+     * @param ts1  the 1st Option
      * @param <T1> right component type of the 1st Option
      * @return a new {@code For}-comprehension of arity 1
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1> For1Option<T1> For(Option<T1> ts1) {
         Objects.requireNonNull(ts1, "ts1 is null");
         return new For1Option<>(ts1);
@@ -2576,16 +2531,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of two Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @return a new {@code For}-comprehension of arity 2
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2> For2Option<T1, T2> For(Option<T1> ts1, Option<T2> ts2) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2595,18 +2546,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of three Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-     * @param ts3 the 3rd Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
+     * @param ts3  the 3rd Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @param <T3> right component type of the 3rd Option
      * @return a new {@code For}-comprehension of arity 3
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3> For3Option<T1, T2, T3> For(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2617,20 +2564,16 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 4 Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-     * @param ts3 the 3rd Option
-     * @param ts4 the 4th Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
+     * @param ts3  the 3rd Option
+     * @param ts4  the 4th Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @param <T3> right component type of the 3rd Option
      * @param <T4> right component type of the 4th Option
      * @return a new {@code For}-comprehension of arity 4
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4> For4Option<T1, T2, T3, T4> For(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2642,22 +2585,18 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 5 Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-     * @param ts3 the 3rd Option
-     * @param ts4 the 4th Option
-     * @param ts5 the 5th Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
+     * @param ts3  the 3rd Option
+     * @param ts4  the 4th Option
+     * @param ts5  the 5th Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @param <T3> right component type of the 3rd Option
      * @param <T4> right component type of the 4th Option
      * @param <T5> right component type of the 5th Option
      * @return a new {@code For}-comprehension of arity 5
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5> For5Option<T1, T2, T3, T4, T5> For(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2670,13 +2609,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 6 Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-     * @param ts3 the 3rd Option
-     * @param ts4 the 4th Option
-     * @param ts5 the 5th Option
-     * @param ts6 the 6th Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
+     * @param ts3  the 3rd Option
+     * @param ts4  the 4th Option
+     * @param ts5  the 5th Option
+     * @param ts6  the 6th Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @param <T3> right component type of the 3rd Option
@@ -2684,10 +2622,7 @@ public final class API {
      * @param <T5> right component type of the 5th Option
      * @param <T6> right component type of the 6th Option
      * @return a new {@code For}-comprehension of arity 6
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6> For6Option<T1, T2, T3, T4, T5, T6> For(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2701,14 +2636,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 7 Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-     * @param ts3 the 3rd Option
-     * @param ts4 the 4th Option
-     * @param ts5 the 5th Option
-     * @param ts6 the 6th Option
-     * @param ts7 the 7th Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
+     * @param ts3  the 3rd Option
+     * @param ts4  the 4th Option
+     * @param ts5  the 5th Option
+     * @param ts6  the 6th Option
+     * @param ts7  the 7th Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @param <T3> right component type of the 3rd Option
@@ -2717,10 +2651,7 @@ public final class API {
      * @param <T6> right component type of the 6th Option
      * @param <T7> right component type of the 7th Option
      * @return a new {@code For}-comprehension of arity 7
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7> For7Option<T1, T2, T3, T4, T5, T6, T7> For(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6, Option<T7> ts7) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2735,15 +2666,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 8 Options.
      *
-     * @param ts1 the 1st Option
-     * @param ts2 the 2nd Option
-     * @param ts3 the 3rd Option
-     * @param ts4 the 4th Option
-     * @param ts5 the 5th Option
-     * @param ts6 the 6th Option
-     * @param ts7 the 7th Option
-     * @param ts8 the 8th Option
-
+     * @param ts1  the 1st Option
+     * @param ts2  the 2nd Option
+     * @param ts3  the 3rd Option
+     * @param ts4  the 4th Option
+     * @param ts5  the 5th Option
+     * @param ts6  the 6th Option
+     * @param ts7  the 7th Option
+     * @param ts8  the 8th Option
      * @param <T1> right component type of the 1st Option
      * @param <T2> right component type of the 2nd Option
      * @param <T3> right component type of the 3rd Option
@@ -2753,10 +2683,7 @@ public final class API {
      * @param <T7> right component type of the 7th Option
      * @param <T8> right component type of the 8th Option
      * @return a new {@code For}-comprehension of arity 8
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7, T8> For8Option<T1, T2, T3, T4, T5, T6, T7, T8> For(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6, Option<T7> ts7, Option<T8> ts8) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2772,14 +2699,10 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of one Future.
      *
-     * @param ts1 the 1st Future
-
+     * @param ts1  the 1st Future
      * @param <T1> right component type of the 1st Future
      * @return a new {@code For}-comprehension of arity 1
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1> For1Future<T1> For(Future<T1> ts1) {
         Objects.requireNonNull(ts1, "ts1 is null");
         return new For1Future<>(ts1);
@@ -2788,16 +2711,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of two Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @return a new {@code For}-comprehension of arity 2
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2> For2Future<T1, T2> For(Future<T1> ts1, Future<T2> ts2) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2807,18 +2726,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of three Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-     * @param ts3 the 3rd Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
+     * @param ts3  the 3rd Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @param <T3> right component type of the 3rd Future
      * @return a new {@code For}-comprehension of arity 3
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3> For3Future<T1, T2, T3> For(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2829,20 +2744,16 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 4 Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-     * @param ts3 the 3rd Future
-     * @param ts4 the 4th Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
+     * @param ts3  the 3rd Future
+     * @param ts4  the 4th Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @param <T3> right component type of the 3rd Future
      * @param <T4> right component type of the 4th Future
      * @return a new {@code For}-comprehension of arity 4
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4> For4Future<T1, T2, T3, T4> For(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2854,22 +2765,18 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 5 Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-     * @param ts3 the 3rd Future
-     * @param ts4 the 4th Future
-     * @param ts5 the 5th Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
+     * @param ts3  the 3rd Future
+     * @param ts4  the 4th Future
+     * @param ts5  the 5th Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @param <T3> right component type of the 3rd Future
      * @param <T4> right component type of the 4th Future
      * @param <T5> right component type of the 5th Future
      * @return a new {@code For}-comprehension of arity 5
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5> For5Future<T1, T2, T3, T4, T5> For(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2882,13 +2789,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 6 Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-     * @param ts3 the 3rd Future
-     * @param ts4 the 4th Future
-     * @param ts5 the 5th Future
-     * @param ts6 the 6th Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
+     * @param ts3  the 3rd Future
+     * @param ts4  the 4th Future
+     * @param ts5  the 5th Future
+     * @param ts6  the 6th Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @param <T3> right component type of the 3rd Future
@@ -2896,10 +2802,7 @@ public final class API {
      * @param <T5> right component type of the 5th Future
      * @param <T6> right component type of the 6th Future
      * @return a new {@code For}-comprehension of arity 6
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6> For6Future<T1, T2, T3, T4, T5, T6> For(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2913,14 +2816,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 7 Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-     * @param ts3 the 3rd Future
-     * @param ts4 the 4th Future
-     * @param ts5 the 5th Future
-     * @param ts6 the 6th Future
-     * @param ts7 the 7th Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
+     * @param ts3  the 3rd Future
+     * @param ts4  the 4th Future
+     * @param ts5  the 5th Future
+     * @param ts6  the 6th Future
+     * @param ts7  the 7th Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @param <T3> right component type of the 3rd Future
@@ -2929,10 +2831,7 @@ public final class API {
      * @param <T6> right component type of the 6th Future
      * @param <T7> right component type of the 7th Future
      * @return a new {@code For}-comprehension of arity 7
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7> For7Future<T1, T2, T3, T4, T5, T6, T7> For(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6, Future<T7> ts7) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2947,15 +2846,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 8 Futures.
      *
-     * @param ts1 the 1st Future
-     * @param ts2 the 2nd Future
-     * @param ts3 the 3rd Future
-     * @param ts4 the 4th Future
-     * @param ts5 the 5th Future
-     * @param ts6 the 6th Future
-     * @param ts7 the 7th Future
-     * @param ts8 the 8th Future
-
+     * @param ts1  the 1st Future
+     * @param ts2  the 2nd Future
+     * @param ts3  the 3rd Future
+     * @param ts4  the 4th Future
+     * @param ts5  the 5th Future
+     * @param ts6  the 6th Future
+     * @param ts7  the 7th Future
+     * @param ts8  the 8th Future
      * @param <T1> right component type of the 1st Future
      * @param <T2> right component type of the 2nd Future
      * @param <T3> right component type of the 3rd Future
@@ -2965,10 +2863,7 @@ public final class API {
      * @param <T7> right component type of the 7th Future
      * @param <T8> right component type of the 8th Future
      * @return a new {@code For}-comprehension of arity 8
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7, T8> For8Future<T1, T2, T3, T4, T5, T6, T7, T8> For(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6, Future<T7> ts7, Future<T8> ts8) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -2984,14 +2879,10 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of one Try.
      *
-     * @param ts1 the 1st Try
-
+     * @param ts1  the 1st Try
      * @param <T1> right component type of the 1st Try
      * @return a new {@code For}-comprehension of arity 1
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1> For1Try<T1> For(Try<T1> ts1) {
         Objects.requireNonNull(ts1, "ts1 is null");
         return new For1Try<>(ts1);
@@ -3000,16 +2891,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of two Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @return a new {@code For}-comprehension of arity 2
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2> For2Try<T1, T2> For(Try<T1> ts1, Try<T2> ts2) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3019,18 +2906,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of three Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-     * @param ts3 the 3rd Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
+     * @param ts3  the 3rd Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @param <T3> right component type of the 3rd Try
      * @return a new {@code For}-comprehension of arity 3
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3> For3Try<T1, T2, T3> For(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3041,20 +2924,16 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 4 Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-     * @param ts3 the 3rd Try
-     * @param ts4 the 4th Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
+     * @param ts3  the 3rd Try
+     * @param ts4  the 4th Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @param <T3> right component type of the 3rd Try
      * @param <T4> right component type of the 4th Try
      * @return a new {@code For}-comprehension of arity 4
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4> For4Try<T1, T2, T3, T4> For(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3066,22 +2945,18 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 5 Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-     * @param ts3 the 3rd Try
-     * @param ts4 the 4th Try
-     * @param ts5 the 5th Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
+     * @param ts3  the 3rd Try
+     * @param ts4  the 4th Try
+     * @param ts5  the 5th Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @param <T3> right component type of the 3rd Try
      * @param <T4> right component type of the 4th Try
      * @param <T5> right component type of the 5th Try
      * @return a new {@code For}-comprehension of arity 5
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5> For5Try<T1, T2, T3, T4, T5> For(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3094,13 +2969,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 6 Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-     * @param ts3 the 3rd Try
-     * @param ts4 the 4th Try
-     * @param ts5 the 5th Try
-     * @param ts6 the 6th Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
+     * @param ts3  the 3rd Try
+     * @param ts4  the 4th Try
+     * @param ts5  the 5th Try
+     * @param ts6  the 6th Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @param <T3> right component type of the 3rd Try
@@ -3108,10 +2982,7 @@ public final class API {
      * @param <T5> right component type of the 5th Try
      * @param <T6> right component type of the 6th Try
      * @return a new {@code For}-comprehension of arity 6
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6> For6Try<T1, T2, T3, T4, T5, T6> For(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3125,14 +2996,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 7 Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-     * @param ts3 the 3rd Try
-     * @param ts4 the 4th Try
-     * @param ts5 the 5th Try
-     * @param ts6 the 6th Try
-     * @param ts7 the 7th Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
+     * @param ts3  the 3rd Try
+     * @param ts4  the 4th Try
+     * @param ts5  the 5th Try
+     * @param ts6  the 6th Try
+     * @param ts7  the 7th Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @param <T3> right component type of the 3rd Try
@@ -3141,10 +3011,7 @@ public final class API {
      * @param <T6> right component type of the 6th Try
      * @param <T7> right component type of the 7th Try
      * @return a new {@code For}-comprehension of arity 7
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7> For7Try<T1, T2, T3, T4, T5, T6, T7> For(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6, Try<T7> ts7) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3159,15 +3026,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 8 Trys.
      *
-     * @param ts1 the 1st Try
-     * @param ts2 the 2nd Try
-     * @param ts3 the 3rd Try
-     * @param ts4 the 4th Try
-     * @param ts5 the 5th Try
-     * @param ts6 the 6th Try
-     * @param ts7 the 7th Try
-     * @param ts8 the 8th Try
-
+     * @param ts1  the 1st Try
+     * @param ts2  the 2nd Try
+     * @param ts3  the 3rd Try
+     * @param ts4  the 4th Try
+     * @param ts5  the 5th Try
+     * @param ts6  the 6th Try
+     * @param ts7  the 7th Try
+     * @param ts8  the 8th Try
      * @param <T1> right component type of the 1st Try
      * @param <T2> right component type of the 2nd Try
      * @param <T3> right component type of the 3rd Try
@@ -3177,10 +3043,7 @@ public final class API {
      * @param <T7> right component type of the 7th Try
      * @param <T8> right component type of the 8th Try
      * @return a new {@code For}-comprehension of arity 8
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7, T8> For8Try<T1, T2, T3, T4, T5, T6, T7, T8> For(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6, Try<T7> ts7, Try<T8> ts8) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3196,14 +3059,11 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of one Either.
      *
-     * @param ts1 the 1st Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @return a new {@code For}-comprehension of arity 1
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1> For1Either<L, T1> For(Either<L, T1> ts1) {
         Objects.requireNonNull(ts1, "ts1 is null");
         return new For1Either<>(ts1);
@@ -3212,16 +3072,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of two Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @return a new {@code For}-comprehension of arity 2
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2> For2Either<L, T1, T2> For(Either<L, T1> ts1, Either<L, T2> ts2) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3231,18 +3088,15 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of three Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     * @param ts3 the 3rd Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param ts3  the 3rd Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @param <T3> right component type of the 3rd Either
      * @return a new {@code For}-comprehension of arity 3
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2, T3> For3Either<L, T1, T2, T3> For(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3253,20 +3107,17 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 4 Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     * @param ts3 the 3rd Either
-     * @param ts4 the 4th Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param ts3  the 3rd Either
+     * @param ts4  the 4th Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @param <T3> right component type of the 3rd Either
      * @param <T4> right component type of the 4th Either
      * @return a new {@code For}-comprehension of arity 4
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2, T3, T4> For4Either<L, T1, T2, T3, T4> For(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3278,22 +3129,19 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 5 Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     * @param ts3 the 3rd Either
-     * @param ts4 the 4th Either
-     * @param ts5 the 5th Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param ts3  the 3rd Either
+     * @param ts4  the 4th Either
+     * @param ts5  the 5th Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @param <T3> right component type of the 3rd Either
      * @param <T4> right component type of the 4th Either
      * @param <T5> right component type of the 5th Either
      * @return a new {@code For}-comprehension of arity 5
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2, T3, T4, T5> For5Either<L, T1, T2, T3, T4, T5> For(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3306,13 +3154,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 6 Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     * @param ts3 the 3rd Either
-     * @param ts4 the 4th Either
-     * @param ts5 the 5th Either
-     * @param ts6 the 6th Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param ts3  the 3rd Either
+     * @param ts4  the 4th Either
+     * @param ts5  the 5th Either
+     * @param ts6  the 6th Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @param <T3> right component type of the 3rd Either
@@ -3320,10 +3168,7 @@ public final class API {
      * @param <T5> right component type of the 5th Either
      * @param <T6> right component type of the 6th Either
      * @return a new {@code For}-comprehension of arity 6
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2, T3, T4, T5, T6> For6Either<L, T1, T2, T3, T4, T5, T6> For(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3337,14 +3182,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 7 Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     * @param ts3 the 3rd Either
-     * @param ts4 the 4th Either
-     * @param ts5 the 5th Either
-     * @param ts6 the 6th Either
-     * @param ts7 the 7th Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param ts3  the 3rd Either
+     * @param ts4  the 4th Either
+     * @param ts5  the 5th Either
+     * @param ts6  the 6th Either
+     * @param ts7  the 7th Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @param <T3> right component type of the 3rd Either
@@ -3353,10 +3198,7 @@ public final class API {
      * @param <T6> right component type of the 6th Either
      * @param <T7> right component type of the 7th Either
      * @return a new {@code For}-comprehension of arity 7
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2, T3, T4, T5, T6, T7> For7Either<L, T1, T2, T3, T4, T5, T6, T7> For(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6, Either<L, T7> ts7) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3371,15 +3213,15 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 8 Eithers.
      *
-     * @param ts1 the 1st Either
-     * @param ts2 the 2nd Either
-     * @param ts3 the 3rd Either
-     * @param ts4 the 4th Either
-     * @param ts5 the 5th Either
-     * @param ts6 the 6th Either
-     * @param ts7 the 7th Either
-     * @param ts8 the 8th Either
-     @param <L> left component type of the given Either types
+     * @param ts1  the 1st Either
+     * @param ts2  the 2nd Either
+     * @param ts3  the 3rd Either
+     * @param ts4  the 4th Either
+     * @param ts5  the 5th Either
+     * @param ts6  the 6th Either
+     * @param ts7  the 7th Either
+     * @param ts8  the 8th Either
+     * @param <L>  left component type of the given Either types
      * @param <T1> right component type of the 1st Either
      * @param <T2> right component type of the 2nd Either
      * @param <T3> right component type of the 3rd Either
@@ -3389,10 +3231,7 @@ public final class API {
      * @param <T7> right component type of the 7th Either
      * @param <T8> right component type of the 8th Either
      * @return a new {@code For}-comprehension of arity 8
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <L, T1, T2, T3, T4, T5, T6, T7, T8> For8Either<L, T1, T2, T3, T4, T5, T6, T7, T8> For(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6, Either<L, T7> ts7, Either<L, T8> ts8) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3408,14 +3247,10 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of one List.
      *
-     * @param ts1 the 1st List
-
+     * @param ts1  the 1st List
      * @param <T1> right component type of the 1st List
      * @return a new {@code For}-comprehension of arity 1
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1> For1List<T1> For(List<T1> ts1) {
         Objects.requireNonNull(ts1, "ts1 is null");
         return new For1List<>(ts1);
@@ -3424,16 +3259,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of two Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @return a new {@code For}-comprehension of arity 2
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2> For2List<T1, T2> For(List<T1> ts1, List<T2> ts2) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3443,18 +3274,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of three Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-     * @param ts3 the 3rd List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
+     * @param ts3  the 3rd List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @param <T3> right component type of the 3rd List
      * @return a new {@code For}-comprehension of arity 3
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3> For3List<T1, T2, T3> For(List<T1> ts1, List<T2> ts2, List<T3> ts3) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3465,20 +3292,16 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 4 Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-     * @param ts3 the 3rd List
-     * @param ts4 the 4th List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
+     * @param ts3  the 3rd List
+     * @param ts4  the 4th List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @param <T3> right component type of the 3rd List
      * @param <T4> right component type of the 4th List
      * @return a new {@code For}-comprehension of arity 4
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4> For4List<T1, T2, T3, T4> For(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3490,22 +3313,18 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 5 Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-     * @param ts3 the 3rd List
-     * @param ts4 the 4th List
-     * @param ts5 the 5th List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
+     * @param ts3  the 3rd List
+     * @param ts4  the 4th List
+     * @param ts5  the 5th List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @param <T3> right component type of the 3rd List
      * @param <T4> right component type of the 4th List
      * @param <T5> right component type of the 5th List
      * @return a new {@code For}-comprehension of arity 5
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5> For5List<T1, T2, T3, T4, T5> For(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3518,13 +3337,12 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 6 Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-     * @param ts3 the 3rd List
-     * @param ts4 the 4th List
-     * @param ts5 the 5th List
-     * @param ts6 the 6th List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
+     * @param ts3  the 3rd List
+     * @param ts4  the 4th List
+     * @param ts5  the 5th List
+     * @param ts6  the 6th List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @param <T3> right component type of the 3rd List
@@ -3532,10 +3350,7 @@ public final class API {
      * @param <T5> right component type of the 5th List
      * @param <T6> right component type of the 6th List
      * @return a new {@code For}-comprehension of arity 6
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6> For6List<T1, T2, T3, T4, T5, T6> For(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3549,14 +3364,13 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 7 Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-     * @param ts3 the 3rd List
-     * @param ts4 the 4th List
-     * @param ts5 the 5th List
-     * @param ts6 the 6th List
-     * @param ts7 the 7th List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
+     * @param ts3  the 3rd List
+     * @param ts4  the 4th List
+     * @param ts5  the 5th List
+     * @param ts6  the 6th List
+     * @param ts7  the 7th List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @param <T3> right component type of the 3rd List
@@ -3565,10 +3379,7 @@ public final class API {
      * @param <T6> right component type of the 6th List
      * @param <T7> right component type of the 7th List
      * @return a new {@code For}-comprehension of arity 7
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7> For7List<T1, T2, T3, T4, T5, T6, T7> For(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6, List<T7> ts7) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3583,15 +3394,14 @@ public final class API {
     /**
      * Creates a {@code For}-comprehension of 8 Lists.
      *
-     * @param ts1 the 1st List
-     * @param ts2 the 2nd List
-     * @param ts3 the 3rd List
-     * @param ts4 the 4th List
-     * @param ts5 the 5th List
-     * @param ts6 the 6th List
-     * @param ts7 the 7th List
-     * @param ts8 the 8th List
-
+     * @param ts1  the 1st List
+     * @param ts2  the 2nd List
+     * @param ts3  the 3rd List
+     * @param ts4  the 4th List
+     * @param ts5  the 5th List
+     * @param ts6  the 6th List
+     * @param ts7  the 7th List
+     * @param ts8  the 8th List
      * @param <T1> right component type of the 1st List
      * @param <T2> right component type of the 2nd List
      * @param <T3> right component type of the 3rd List
@@ -3601,10 +3411,7 @@ public final class API {
      * @param <T7> right component type of the 7th List
      * @param <T8> right component type of the 8th List
      * @return a new {@code For}-comprehension of arity 8
-     *
-     * @deprecated to be replaced with revised JDK13-compliant API
      */
-    @Deprecated
     public static <T1, T2, T3, T4, T5, T6, T7, T8> For8List<T1, T2, T3, T4, T5, T6, T7, T8> For(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6, List<T7> ts7, List<T8> ts8) {
         Objects.requireNonNull(ts1, "ts1 is null");
         Objects.requireNonNull(ts2, "ts2 is null");
@@ -3617,2105 +3424,1799 @@ public final class API {
         return new For8List<>(ts1, ts2, ts3, ts4, ts5, ts6, ts7, ts8);
     }
 
-     /**
-      * For-comprehension with one Iterable.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For1<T1> {
-
-         private final Iterable<T1> ts1;
-
-         private For1(Iterable<T1> ts1) {
-             this.ts1 = ts1;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterable.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function<? super T1, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return Iterator.ofAll(ts1).map(f);
-         }
-
-         /**
-          * A shortcut for {@code yield(Function.identity())}.
-          *
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public Iterator<T1> yield() {
-             return this.yield(Function.identity());
-         }
-     }
-
-     /**
-      * For-comprehension with two Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For2<T1, T2> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-
-         private For2(Iterable<T1> ts1, Iterable<T2> ts2) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).map(t2 -> f.apply(t1, t2)));
-         }
-
-     }
-
-     /**
-      * For-comprehension with three Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For3<T1, T2, T3> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-         private final Iterable<T3> ts3;
-
-         private For3(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).flatMap(t2 ->
-                 Iterator.ofAll(ts3).map(t3 -> f.apply(t1, t2, t3))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 4 Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For4<T1, T2, T3, T4> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-         private final Iterable<T3> ts3;
-         private final Iterable<T4> ts4;
-
-         private For4(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).flatMap(t2 ->
-                 Iterator.ofAll(ts3).flatMap(t3 ->
-                 Iterator.ofAll(ts4).map(t4 -> f.apply(t1, t2, t3, t4)))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 5 Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For5<T1, T2, T3, T4, T5> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-         private final Iterable<T3> ts3;
-         private final Iterable<T4> ts4;
-         private final Iterable<T5> ts5;
-
-         private For5(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).flatMap(t2 ->
-                 Iterator.ofAll(ts3).flatMap(t3 ->
-                 Iterator.ofAll(ts4).flatMap(t4 ->
-                 Iterator.ofAll(ts5).map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 6 Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For6<T1, T2, T3, T4, T5, T6> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-         private final Iterable<T3> ts3;
-         private final Iterable<T4> ts4;
-         private final Iterable<T5> ts5;
-         private final Iterable<T6> ts6;
-
-         private For6(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).flatMap(t2 ->
-                 Iterator.ofAll(ts3).flatMap(t3 ->
-                 Iterator.ofAll(ts4).flatMap(t4 ->
-                 Iterator.ofAll(ts5).flatMap(t5 ->
-                 Iterator.ofAll(ts6).map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 7 Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For7<T1, T2, T3, T4, T5, T6, T7> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-         private final Iterable<T3> ts3;
-         private final Iterable<T4> ts4;
-         private final Iterable<T5> ts5;
-         private final Iterable<T6> ts6;
-         private final Iterable<T7> ts7;
-
-         private For7(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6, Iterable<T7> ts7) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).flatMap(t2 ->
-                 Iterator.ofAll(ts3).flatMap(t3 ->
-                 Iterator.ofAll(ts4).flatMap(t4 ->
-                 Iterator.ofAll(ts5).flatMap(t5 ->
-                 Iterator.ofAll(ts6).flatMap(t6 ->
-                 Iterator.ofAll(ts7).map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 8 Iterables.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For8<T1, T2, T3, T4, T5, T6, T7, T8> {
-
-         private final Iterable<T1> ts1;
-         private final Iterable<T2> ts2;
-         private final Iterable<T3> ts3;
-         private final Iterable<T4> ts4;
-         private final Iterable<T5> ts5;
-         private final Iterable<T6> ts6;
-         private final Iterable<T7> ts7;
-         private final Iterable<T8> ts8;
-
-         private For8(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6, Iterable<T7> ts7, Iterable<T8> ts8) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-             this.ts8 = ts8;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Iterables.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Iterator} elements
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Iterator<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 Iterator.ofAll(ts1).flatMap(t1 ->
-                 Iterator.ofAll(ts2).flatMap(t2 ->
-                 Iterator.ofAll(ts3).flatMap(t3 ->
-                 Iterator.ofAll(ts4).flatMap(t4 ->
-                 Iterator.ofAll(ts5).flatMap(t5 ->
-                 Iterator.ofAll(ts6).flatMap(t6 ->
-                 Iterator.ofAll(ts7).flatMap(t7 ->
-                 Iterator.ofAll(ts8).map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with one Option.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For1Option<T1> {
-
-         private final Option<T1> ts1;
-
-         private For1Option(Option<T1> ts1) {
-             this.ts1 = ts1;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Option.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function<? super T1, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return ts1.map(f);
-         }
-
-         /**
-          * A shortcut for {@code yield(Function.identity())}.
-          *
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public Option<T1> yield() {
-             return this.yield(Function.identity());
-         }
-     }
-
-     /**
-      * For-comprehension with two Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For2Option<T1, T2> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-
-         private For2Option(Option<T1> ts1, Option<T2> ts2) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.map(t2 -> f.apply(t1, t2)));
-         }
-
-     }
-
-     /**
-      * For-comprehension with three Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For3Option<T1, T2, T3> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-         private final Option<T3> ts3;
-
-         private For3Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.map(t3 -> f.apply(t1, t2, t3))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 4 Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For4Option<T1, T2, T3, T4> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-         private final Option<T3> ts3;
-         private final Option<T4> ts4;
-
-         private For4Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 5 Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For5Option<T1, T2, T3, T4, T5> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-         private final Option<T3> ts3;
-         private final Option<T4> ts4;
-         private final Option<T5> ts5;
-
-         private For5Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 6 Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For6Option<T1, T2, T3, T4, T5, T6> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-         private final Option<T3> ts3;
-         private final Option<T4> ts4;
-         private final Option<T5> ts5;
-         private final Option<T6> ts6;
-
-         private For6Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 7 Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For7Option<T1, T2, T3, T4, T5, T6, T7> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-         private final Option<T3> ts3;
-         private final Option<T4> ts4;
-         private final Option<T5> ts5;
-         private final Option<T6> ts6;
-         private final Option<T7> ts7;
-
-         private For7Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6, Option<T7> ts7) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 8 Options.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For8Option<T1, T2, T3, T4, T5, T6, T7, T8> {
-
-         private final Option<T1> ts1;
-         private final Option<T2> ts2;
-         private final Option<T3> ts3;
-         private final Option<T4> ts4;
-         private final Option<T5> ts5;
-         private final Option<T6> ts6;
-         private final Option<T7> ts7;
-         private final Option<T8> ts8;
-
-         private For8Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6, Option<T7> ts7, Option<T8> ts8) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-             this.ts8 = ts8;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Options.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Option} elements
-          * @return an {@code Option} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Option<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.flatMap(t7 ->
-                 ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with one Future.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For1Future<T1> {
-
-         private final Future<T1> ts1;
-
-         private For1Future(Future<T1> ts1) {
-             this.ts1 = ts1;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Future.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function<? super T1, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return ts1.map(f);
-         }
-
-         /**
-          * A shortcut for {@code yield(Function.identity())}.
-          *
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public Future<T1> yield() {
-             return this.yield(Function.identity());
-         }
-     }
-
-     /**
-      * For-comprehension with two Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For2Future<T1, T2> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-
-         private For2Future(Future<T1> ts1, Future<T2> ts2) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.map(t2 -> f.apply(t1, t2)));
-         }
-
-     }
-
-     /**
-      * For-comprehension with three Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For3Future<T1, T2, T3> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-         private final Future<T3> ts3;
-
-         private For3Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.map(t3 -> f.apply(t1, t2, t3))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 4 Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For4Future<T1, T2, T3, T4> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-         private final Future<T3> ts3;
-         private final Future<T4> ts4;
-
-         private For4Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 5 Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For5Future<T1, T2, T3, T4, T5> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-         private final Future<T3> ts3;
-         private final Future<T4> ts4;
-         private final Future<T5> ts5;
-
-         private For5Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 6 Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For6Future<T1, T2, T3, T4, T5, T6> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-         private final Future<T3> ts3;
-         private final Future<T4> ts4;
-         private final Future<T5> ts5;
-         private final Future<T6> ts6;
-
-         private For6Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 7 Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For7Future<T1, T2, T3, T4, T5, T6, T7> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-         private final Future<T3> ts3;
-         private final Future<T4> ts4;
-         private final Future<T5> ts5;
-         private final Future<T6> ts6;
-         private final Future<T7> ts7;
-
-         private For7Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6, Future<T7> ts7) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 8 Futures.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For8Future<T1, T2, T3, T4, T5, T6, T7, T8> {
-
-         private final Future<T1> ts1;
-         private final Future<T2> ts2;
-         private final Future<T3> ts3;
-         private final Future<T4> ts4;
-         private final Future<T5> ts5;
-         private final Future<T6> ts6;
-         private final Future<T7> ts7;
-         private final Future<T8> ts8;
-
-         private For8Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6, Future<T7> ts7, Future<T8> ts8) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-             this.ts8 = ts8;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Futures.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Future} elements
-          * @return an {@code Future} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Future<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.flatMap(t7 ->
-                 ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with one Try.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For1Try<T1> {
-
-         private final Try<T1> ts1;
-
-         private For1Try(Try<T1> ts1) {
-             this.ts1 = ts1;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Try.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function<? super T1, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return ts1.map(f);
-         }
-
-         /**
-          * A shortcut for {@code yield(Function.identity())}.
-          *
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public Try<T1> yield() {
-             return this.yield(Function.identity());
-         }
-     }
-
-     /**
-      * For-comprehension with two Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For2Try<T1, T2> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-
-         private For2Try(Try<T1> ts1, Try<T2> ts2) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.map(t2 -> f.apply(t1, t2)));
-         }
-
-     }
-
-     /**
-      * For-comprehension with three Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For3Try<T1, T2, T3> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-         private final Try<T3> ts3;
-
-         private For3Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.map(t3 -> f.apply(t1, t2, t3))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 4 Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For4Try<T1, T2, T3, T4> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-         private final Try<T3> ts3;
-         private final Try<T4> ts4;
-
-         private For4Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 5 Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For5Try<T1, T2, T3, T4, T5> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-         private final Try<T3> ts3;
-         private final Try<T4> ts4;
-         private final Try<T5> ts5;
-
-         private For5Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 6 Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For6Try<T1, T2, T3, T4, T5, T6> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-         private final Try<T3> ts3;
-         private final Try<T4> ts4;
-         private final Try<T5> ts5;
-         private final Try<T6> ts6;
-
-         private For6Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 7 Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For7Try<T1, T2, T3, T4, T5, T6, T7> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-         private final Try<T3> ts3;
-         private final Try<T4> ts4;
-         private final Try<T5> ts5;
-         private final Try<T6> ts6;
-         private final Try<T7> ts7;
-
-         private For7Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6, Try<T7> ts7) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 8 Trys.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For8Try<T1, T2, T3, T4, T5, T6, T7, T8> {
-
-         private final Try<T1> ts1;
-         private final Try<T2> ts2;
-         private final Try<T3> ts3;
-         private final Try<T4> ts4;
-         private final Try<T5> ts5;
-         private final Try<T6> ts6;
-         private final Try<T7> ts7;
-         private final Try<T8> ts8;
-
-         private For8Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6, Try<T7> ts7, Try<T8> ts8) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-             this.ts8 = ts8;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Trys.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Try} elements
-          * @return an {@code Try} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Try<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.flatMap(t7 ->
-                 ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with one Either.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For1Either<L, T1> {
-
-         private final Either<L, T1> ts1;
-
-         private For1Either(Either<L, T1> ts1) {
-             this.ts1 = ts1;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Either.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function<? super T1, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return ts1.map(f);
-         }
-
-         /**
-          * A shortcut for {@code yield(Function.identity())}.
-          *
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public Either<L, T1> yield() {
-             return this.yield(Function.identity());
-         }
-     }
-
-     /**
-      * For-comprehension with two Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For2Either<L, T1, T2> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-
-         private For2Either(Either<L, T1> ts1, Either<L, T2> ts2) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.map(t2 -> f.apply(t1, t2)));
-         }
-
-     }
-
-     /**
-      * For-comprehension with three Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For3Either<L, T1, T2, T3> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-         private final Either<L, T3> ts3;
-
-         private For3Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.map(t3 -> f.apply(t1, t2, t3))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 4 Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For4Either<L, T1, T2, T3, T4> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-         private final Either<L, T3> ts3;
-         private final Either<L, T4> ts4;
-
-         private For4Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 5 Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For5Either<L, T1, T2, T3, T4, T5> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-         private final Either<L, T3> ts3;
-         private final Either<L, T4> ts4;
-         private final Either<L, T5> ts5;
-
-         private For5Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 6 Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For6Either<L, T1, T2, T3, T4, T5, T6> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-         private final Either<L, T3> ts3;
-         private final Either<L, T4> ts4;
-         private final Either<L, T5> ts5;
-         private final Either<L, T6> ts6;
-
-         private For6Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 7 Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For7Either<L, T1, T2, T3, T4, T5, T6, T7> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-         private final Either<L, T3> ts3;
-         private final Either<L, T4> ts4;
-         private final Either<L, T5> ts5;
-         private final Either<L, T6> ts6;
-         private final Either<L, T7> ts7;
-
-         private For7Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6, Either<L, T7> ts7) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 8 Eithers.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For8Either<L, T1, T2, T3, T4, T5, T6, T7, T8> {
-
-         private final Either<L, T1> ts1;
-         private final Either<L, T2> ts2;
-         private final Either<L, T3> ts3;
-         private final Either<L, T4> ts4;
-         private final Either<L, T5> ts5;
-         private final Either<L, T6> ts6;
-         private final Either<L, T7> ts7;
-         private final Either<L, T8> ts8;
-
-         private For8Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6, Either<L, T7> ts7, Either<L, T8> ts8) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-             this.ts8 = ts8;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Eithers.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code Either} elements
-          * @return an {@code Either} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> Either<L, R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.flatMap(t7 ->
-                 ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with one List.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For1List<T1> {
-
-         private final List<T1> ts1;
-
-         private For1List(List<T1> ts1) {
-             this.ts1 = ts1;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying List.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function<? super T1, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return ts1.map(f);
-         }
-
-         /**
-          * A shortcut for {@code yield(Function.identity())}.
-          *
-          * @return an {@code Iterator} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public List<T1> yield() {
-             return this.yield(Function.identity());
-         }
-     }
-
-     /**
-      * For-comprehension with two Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For2List<T1, T2> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-
-         private For2List(List<T1> ts1, List<T2> ts2) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.map(t2 -> f.apply(t1, t2)));
-         }
-
-     }
-
-     /**
-      * For-comprehension with three Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For3List<T1, T2, T3> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-         private final List<T3> ts3;
-
-         private For3List(List<T1> ts1, List<T2> ts2, List<T3> ts3) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.map(t3 -> f.apply(t1, t2, t3))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 4 Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For4List<T1, T2, T3, T4> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-         private final List<T3> ts3;
-         private final List<T4> ts4;
-
-         private For4List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 5 Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For5List<T1, T2, T3, T4, T5> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-         private final List<T3> ts3;
-         private final List<T4> ts4;
-         private final List<T5> ts5;
-
-         private For5List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 6 Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For6List<T1, T2, T3, T4, T5, T6> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-         private final List<T3> ts3;
-         private final List<T4> ts4;
-         private final List<T5> ts5;
-         private final List<T6> ts6;
-
-         private For6List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 7 Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For7List<T1, T2, T3, T4, T5, T6, T7> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-         private final List<T3> ts3;
-         private final List<T4> ts4;
-         private final List<T5> ts5;
-         private final List<T6> ts6;
-         private final List<T7> ts7;
-
-         private For7List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6, List<T7> ts7) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
-         }
-
-     }
-
-     /**
-      * For-comprehension with 8 Lists.
-      *
-      * @deprecated to be replaced with revised JDK13-compliant API
-      */
-     @Deprecated
-     public static class For8List<T1, T2, T3, T4, T5, T6, T7, T8> {
-
-         private final List<T1> ts1;
-         private final List<T2> ts2;
-         private final List<T3> ts3;
-         private final List<T4> ts4;
-         private final List<T5> ts5;
-         private final List<T6> ts6;
-         private final List<T7> ts7;
-         private final List<T8> ts8;
-
-         private For8List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6, List<T7> ts7, List<T8> ts8) {
-             this.ts1 = ts1;
-             this.ts2 = ts2;
-             this.ts3 = ts3;
-             this.ts4 = ts4;
-             this.ts5 = ts5;
-             this.ts6 = ts6;
-             this.ts7 = ts7;
-             this.ts8 = ts8;
-         }
-
-         /**
-          * Yields a result for elements of the cross product of the underlying Lists.
-          *
-          * @param f a function that maps an element of the cross product to a result
-          * @param <R> type of the resulting {@code List} elements
-          * @return an {@code List} of mapped results
-          *
-          * @deprecated to be replaced with revised JDK13-compliant API
-          */
-         @Deprecated
-         public <R> List<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
-             Objects.requireNonNull(f, "f is null");
-             return
-                 ts1.flatMap(t1 ->
-                 ts2.flatMap(t2 ->
-                 ts3.flatMap(t3 ->
-                 ts4.flatMap(t4 ->
-                 ts5.flatMap(t5 ->
-                 ts6.flatMap(t6 ->
-                 ts7.flatMap(t7 ->
-                 ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
-         }
-
-     }
+    /**
+     * For-comprehension with one Iterable.
+     */
+    public static class For1<T1> {
+
+        private final Iterable<T1> ts1;
+
+        private For1(Iterable<T1> ts1) {
+            this.ts1 = ts1;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterable.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function<? super T1, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return Iterator.ofAll(ts1).map(f);
+        }
+
+        /**
+         * A shortcut for {@code yield(Function.identity())}.
+         *
+         * @return an {@code Iterator} of mapped results
+         */
+        public Iterator<T1> yield() {
+            return this.yield(Function.identity());
+        }
+    }
+
+    /**
+     * For-comprehension with two Iterables.
+     */
+    public static class For2<T1, T2> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+
+        private For2(Iterable<T1> ts1, Iterable<T2> ts2) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).map(t2 -> f.apply(t1, t2)));
+        }
+
+    }
+
+    /**
+     * For-comprehension with three Iterables.
+     */
+    public static class For3<T1, T2, T3> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+        private final Iterable<T3> ts3;
+
+        private For3(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).flatMap(t2 ->
+                                    Iterator.ofAll(ts3).map(t3 -> f.apply(t1, t2, t3))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 4 Iterables.
+     */
+    public static class For4<T1, T2, T3, T4> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+        private final Iterable<T3> ts3;
+        private final Iterable<T4> ts4;
+
+        private For4(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).flatMap(t2 ->
+                                    Iterator.ofAll(ts3).flatMap(t3 ->
+                                            Iterator.ofAll(ts4).map(t4 -> f.apply(t1, t2, t3, t4)))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 5 Iterables.
+     */
+    public static class For5<T1, T2, T3, T4, T5> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+        private final Iterable<T3> ts3;
+        private final Iterable<T4> ts4;
+        private final Iterable<T5> ts5;
+
+        private For5(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).flatMap(t2 ->
+                                    Iterator.ofAll(ts3).flatMap(t3 ->
+                                            Iterator.ofAll(ts4).flatMap(t4 ->
+                                                    Iterator.ofAll(ts5).map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 6 Iterables.
+     */
+    public static class For6<T1, T2, T3, T4, T5, T6> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+        private final Iterable<T3> ts3;
+        private final Iterable<T4> ts4;
+        private final Iterable<T5> ts5;
+        private final Iterable<T6> ts6;
+
+        private For6(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).flatMap(t2 ->
+                                    Iterator.ofAll(ts3).flatMap(t3 ->
+                                            Iterator.ofAll(ts4).flatMap(t4 ->
+                                                    Iterator.ofAll(ts5).flatMap(t5 ->
+                                                            Iterator.ofAll(ts6).map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 7 Iterables.
+     */
+    public static class For7<T1, T2, T3, T4, T5, T6, T7> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+        private final Iterable<T3> ts3;
+        private final Iterable<T4> ts4;
+        private final Iterable<T5> ts5;
+        private final Iterable<T6> ts6;
+        private final Iterable<T7> ts7;
+
+        private For7(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6, Iterable<T7> ts7) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).flatMap(t2 ->
+                                    Iterator.ofAll(ts3).flatMap(t3 ->
+                                            Iterator.ofAll(ts4).flatMap(t4 ->
+                                                    Iterator.ofAll(ts5).flatMap(t5 ->
+                                                            Iterator.ofAll(ts6).flatMap(t6 ->
+                                                                    Iterator.ofAll(ts7).map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 8 Iterables.
+     */
+    public static class For8<T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private final Iterable<T1> ts1;
+        private final Iterable<T2> ts2;
+        private final Iterable<T3> ts3;
+        private final Iterable<T4> ts4;
+        private final Iterable<T5> ts5;
+        private final Iterable<T6> ts6;
+        private final Iterable<T7> ts7;
+        private final Iterable<T8> ts8;
+
+        private For8(Iterable<T1> ts1, Iterable<T2> ts2, Iterable<T3> ts3, Iterable<T4> ts4, Iterable<T5> ts5, Iterable<T6> ts6, Iterable<T7> ts7, Iterable<T8> ts8) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+            this.ts8 = ts8;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Iterables.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Iterator} elements
+         * @return an {@code Iterator} of mapped results
+         */
+        public <R> Iterator<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    Iterator.ofAll(ts1).flatMap(t1 ->
+                            Iterator.ofAll(ts2).flatMap(t2 ->
+                                    Iterator.ofAll(ts3).flatMap(t3 ->
+                                            Iterator.ofAll(ts4).flatMap(t4 ->
+                                                    Iterator.ofAll(ts5).flatMap(t5 ->
+                                                            Iterator.ofAll(ts6).flatMap(t6 ->
+                                                                    Iterator.ofAll(ts7).flatMap(t7 ->
+                                                                            Iterator.ofAll(ts8).map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with one Option.
+     */
+    public static class For1Option<T1> {
+
+        private final Option<T1> ts1;
+
+        private For1Option(Option<T1> ts1) {
+            this.ts1 = ts1;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Option.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function<? super T1, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return ts1.map(f);
+        }
+
+        /**
+         * A shortcut for {@code yield(Function.identity())}.
+         *
+         * @return an {@code Iterator} of mapped results
+         */
+        public Option<T1> yield() {
+            return this.yield(Function.identity());
+        }
+    }
+
+    /**
+     * For-comprehension with two Options.
+     */
+    public static class For2Option<T1, T2> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+
+        private For2Option(Option<T1> ts1, Option<T2> ts2) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.map(t2 -> f.apply(t1, t2)));
+        }
+
+    }
+
+    /**
+     * For-comprehension with three Options.
+     */
+    public static class For3Option<T1, T2, T3> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+        private final Option<T3> ts3;
+
+        private For3Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.map(t3 -> f.apply(t1, t2, t3))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 4 Options.
+     */
+    public static class For4Option<T1, T2, T3, T4> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+        private final Option<T3> ts3;
+        private final Option<T4> ts4;
+
+        private For4Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 5 Options.
+     */
+    public static class For5Option<T1, T2, T3, T4, T5> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+        private final Option<T3> ts3;
+        private final Option<T4> ts4;
+        private final Option<T5> ts5;
+
+        private For5Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 6 Options.
+     */
+    public static class For6Option<T1, T2, T3, T4, T5, T6> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+        private final Option<T3> ts3;
+        private final Option<T4> ts4;
+        private final Option<T5> ts5;
+        private final Option<T6> ts6;
+
+        private For6Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 7 Options.
+     */
+    public static class For7Option<T1, T2, T3, T4, T5, T6, T7> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+        private final Option<T3> ts3;
+        private final Option<T4> ts4;
+        private final Option<T5> ts5;
+        private final Option<T6> ts6;
+        private final Option<T7> ts7;
+
+        private For7Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6, Option<T7> ts7) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 8 Options.
+     */
+    public static class For8Option<T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private final Option<T1> ts1;
+        private final Option<T2> ts2;
+        private final Option<T3> ts3;
+        private final Option<T4> ts4;
+        private final Option<T5> ts5;
+        private final Option<T6> ts6;
+        private final Option<T7> ts7;
+        private final Option<T8> ts8;
+
+        private For8Option(Option<T1> ts1, Option<T2> ts2, Option<T3> ts3, Option<T4> ts4, Option<T5> ts5, Option<T6> ts6, Option<T7> ts7, Option<T8> ts8) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+            this.ts8 = ts8;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Options.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Option} elements
+         * @return an {@code Option} of mapped results
+         */
+        public <R> Option<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.flatMap(t7 ->
+                                                                            ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with one Future.
+     */
+    public static class For1Future<T1> {
+
+        private final Future<T1> ts1;
+
+        private For1Future(Future<T1> ts1) {
+            this.ts1 = ts1;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Future.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function<? super T1, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return ts1.map(f);
+        }
+
+        /**
+         * A shortcut for {@code yield(Function.identity())}.
+         *
+         * @return an {@code Iterator} of mapped results
+         */
+        public Future<T1> yield() {
+            return this.yield(Function.identity());
+        }
+    }
+
+    /**
+     * For-comprehension with two Futures.
+     */
+    public static class For2Future<T1, T2> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+
+        private For2Future(Future<T1> ts1, Future<T2> ts2) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.map(t2 -> f.apply(t1, t2)));
+        }
+
+    }
+
+    /**
+     * For-comprehension with three Futures.
+     */
+    public static class For3Future<T1, T2, T3> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+        private final Future<T3> ts3;
+
+        private For3Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.map(t3 -> f.apply(t1, t2, t3))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 4 Futures.
+     */
+    public static class For4Future<T1, T2, T3, T4> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+        private final Future<T3> ts3;
+        private final Future<T4> ts4;
+
+        private For4Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 5 Futures.
+     */
+    public static class For5Future<T1, T2, T3, T4, T5> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+        private final Future<T3> ts3;
+        private final Future<T4> ts4;
+        private final Future<T5> ts5;
+
+        private For5Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 6 Futures.
+     */
+    public static class For6Future<T1, T2, T3, T4, T5, T6> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+        private final Future<T3> ts3;
+        private final Future<T4> ts4;
+        private final Future<T5> ts5;
+        private final Future<T6> ts6;
+
+        private For6Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 7 Futures.
+     */
+    public static class For7Future<T1, T2, T3, T4, T5, T6, T7> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+        private final Future<T3> ts3;
+        private final Future<T4> ts4;
+        private final Future<T5> ts5;
+        private final Future<T6> ts6;
+        private final Future<T7> ts7;
+
+        private For7Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6, Future<T7> ts7) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 8 Futures.
+     */
+    public static class For8Future<T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private final Future<T1> ts1;
+        private final Future<T2> ts2;
+        private final Future<T3> ts3;
+        private final Future<T4> ts4;
+        private final Future<T5> ts5;
+        private final Future<T6> ts6;
+        private final Future<T7> ts7;
+        private final Future<T8> ts8;
+
+        private For8Future(Future<T1> ts1, Future<T2> ts2, Future<T3> ts3, Future<T4> ts4, Future<T5> ts5, Future<T6> ts6, Future<T7> ts7, Future<T8> ts8) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+            this.ts8 = ts8;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Futures.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Future} elements
+         * @return an {@code Future} of mapped results
+         */
+        public <R> Future<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.flatMap(t7 ->
+                                                                            ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with one Try.
+     */
+    public static class For1Try<T1> {
+
+        private final Try<T1> ts1;
+
+        private For1Try(Try<T1> ts1) {
+            this.ts1 = ts1;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Try.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function<? super T1, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return ts1.map(f);
+        }
+
+        /**
+         * A shortcut for {@code yield(Function.identity())}.
+         *
+         * @return an {@code Iterator} of mapped results
+         */
+        public Try<T1> yield() {
+            return this.yield(Function.identity());
+        }
+    }
+
+    /**
+     * For-comprehension with two Trys.
+     */
+    public static class For2Try<T1, T2> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+
+        private For2Try(Try<T1> ts1, Try<T2> ts2) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.map(t2 -> f.apply(t1, t2)));
+        }
+
+    }
+
+    /**
+     * For-comprehension with three Trys.
+     */
+    public static class For3Try<T1, T2, T3> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+        private final Try<T3> ts3;
+
+        private For3Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.map(t3 -> f.apply(t1, t2, t3))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 4 Trys.
+     */
+    public static class For4Try<T1, T2, T3, T4> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+        private final Try<T3> ts3;
+        private final Try<T4> ts4;
+
+        private For4Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 5 Trys.
+     */
+    public static class For5Try<T1, T2, T3, T4, T5> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+        private final Try<T3> ts3;
+        private final Try<T4> ts4;
+        private final Try<T5> ts5;
+
+        private For5Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 6 Trys.
+     */
+    public static class For6Try<T1, T2, T3, T4, T5, T6> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+        private final Try<T3> ts3;
+        private final Try<T4> ts4;
+        private final Try<T5> ts5;
+        private final Try<T6> ts6;
+
+        private For6Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 7 Trys.
+     */
+    public static class For7Try<T1, T2, T3, T4, T5, T6, T7> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+        private final Try<T3> ts3;
+        private final Try<T4> ts4;
+        private final Try<T5> ts5;
+        private final Try<T6> ts6;
+        private final Try<T7> ts7;
+
+        private For7Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6, Try<T7> ts7) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 8 Trys.
+     */
+    public static class For8Try<T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private final Try<T1> ts1;
+        private final Try<T2> ts2;
+        private final Try<T3> ts3;
+        private final Try<T4> ts4;
+        private final Try<T5> ts5;
+        private final Try<T6> ts6;
+        private final Try<T7> ts7;
+        private final Try<T8> ts8;
+
+        private For8Try(Try<T1> ts1, Try<T2> ts2, Try<T3> ts3, Try<T4> ts4, Try<T5> ts5, Try<T6> ts6, Try<T7> ts7, Try<T8> ts8) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+            this.ts8 = ts8;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Trys.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Try} elements
+         * @return an {@code Try} of mapped results
+         */
+        public <R> Try<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.flatMap(t7 ->
+                                                                            ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with one Either.
+     */
+    public static class For1Either<L, T1> {
+
+        private final Either<L, T1> ts1;
+
+        private For1Either(Either<L, T1> ts1) {
+            this.ts1 = ts1;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Either.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function<? super T1, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return ts1.map(f);
+        }
+
+        /**
+         * A shortcut for {@code yield(Function.identity())}.
+         *
+         * @return an {@code Iterator} of mapped results
+         */
+        public Either<L, T1> yield() {
+            return this.yield(Function.identity());
+        }
+    }
+
+    /**
+     * For-comprehension with two Eithers.
+     */
+    public static class For2Either<L, T1, T2> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+
+        private For2Either(Either<L, T1> ts1, Either<L, T2> ts2) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.map(t2 -> f.apply(t1, t2)));
+        }
+
+    }
+
+    /**
+     * For-comprehension with three Eithers.
+     */
+    public static class For3Either<L, T1, T2, T3> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+        private final Either<L, T3> ts3;
+
+        private For3Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.map(t3 -> f.apply(t1, t2, t3))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 4 Eithers.
+     */
+    public static class For4Either<L, T1, T2, T3, T4> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+        private final Either<L, T3> ts3;
+        private final Either<L, T4> ts4;
+
+        private For4Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 5 Eithers.
+     */
+    public static class For5Either<L, T1, T2, T3, T4, T5> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+        private final Either<L, T3> ts3;
+        private final Either<L, T4> ts4;
+        private final Either<L, T5> ts5;
+
+        private For5Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 6 Eithers.
+     */
+    public static class For6Either<L, T1, T2, T3, T4, T5, T6> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+        private final Either<L, T3> ts3;
+        private final Either<L, T4> ts4;
+        private final Either<L, T5> ts5;
+        private final Either<L, T6> ts6;
+
+        private For6Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 7 Eithers.
+     */
+    public static class For7Either<L, T1, T2, T3, T4, T5, T6, T7> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+        private final Either<L, T3> ts3;
+        private final Either<L, T4> ts4;
+        private final Either<L, T5> ts5;
+        private final Either<L, T6> ts6;
+        private final Either<L, T7> ts7;
+
+        private For7Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6, Either<L, T7> ts7) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 8 Eithers.
+     */
+    public static class For8Either<L, T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private final Either<L, T1> ts1;
+        private final Either<L, T2> ts2;
+        private final Either<L, T3> ts3;
+        private final Either<L, T4> ts4;
+        private final Either<L, T5> ts5;
+        private final Either<L, T6> ts6;
+        private final Either<L, T7> ts7;
+        private final Either<L, T8> ts8;
+
+        private For8Either(Either<L, T1> ts1, Either<L, T2> ts2, Either<L, T3> ts3, Either<L, T4> ts4, Either<L, T5> ts5, Either<L, T6> ts6, Either<L, T7> ts7, Either<L, T8> ts8) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+            this.ts8 = ts8;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Eithers.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code Either} elements
+         * @return an {@code Either} of mapped results
+         */
+        public <R> Either<L, R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.flatMap(t7 ->
+                                                                            ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with one List.
+     */
+    public static class For1List<T1> {
+
+        private final List<T1> ts1;
+
+        private For1List(List<T1> ts1) {
+            this.ts1 = ts1;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying List.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function<? super T1, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return ts1.map(f);
+        }
+
+        /**
+         * A shortcut for {@code yield(Function.identity())}.
+         *
+         * @return an {@code Iterator} of mapped results
+         */
+        public List<T1> yield() {
+            return this.yield(Function.identity());
+        }
+    }
+
+    /**
+     * For-comprehension with two Lists.
+     */
+    public static class For2List<T1, T2> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+
+        private For2List(List<T1> ts1, List<T2> ts2) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(BiFunction<? super T1, ? super T2, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.map(t2 -> f.apply(t1, t2)));
+        }
+
+    }
+
+    /**
+     * For-comprehension with three Lists.
+     */
+    public static class For3List<T1, T2, T3> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+        private final List<T3> ts3;
+
+        private For3List(List<T1> ts1, List<T2> ts2, List<T3> ts3) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function3<? super T1, ? super T2, ? super T3, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.map(t3 -> f.apply(t1, t2, t3))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 4 Lists.
+     */
+    public static class For4List<T1, T2, T3, T4> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+        private final List<T3> ts3;
+        private final List<T4> ts4;
+
+        private For4List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.map(t4 -> f.apply(t1, t2, t3, t4)))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 5 Lists.
+     */
+    public static class For5List<T1, T2, T3, T4, T5> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+        private final List<T3> ts3;
+        private final List<T4> ts4;
+        private final List<T5> ts5;
+
+        private For5List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.map(t5 -> f.apply(t1, t2, t3, t4, t5))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 6 Lists.
+     */
+    public static class For6List<T1, T2, T3, T4, T5, T6> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+        private final List<T3> ts3;
+        private final List<T4> ts4;
+        private final List<T5> ts5;
+        private final List<T6> ts6;
+
+        private For6List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.map(t6 -> f.apply(t1, t2, t3, t4, t5, t6)))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 7 Lists.
+     */
+    public static class For7List<T1, T2, T3, T4, T5, T6, T7> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+        private final List<T3> ts3;
+        private final List<T4> ts4;
+        private final List<T5> ts5;
+        private final List<T6> ts6;
+        private final List<T7> ts7;
+
+        private For7List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6, List<T7> ts7) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.map(t7 -> f.apply(t1, t2, t3, t4, t5, t6, t7))))))));
+        }
+
+    }
+
+    /**
+     * For-comprehension with 8 Lists.
+     */
+    public static class For8List<T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private final List<T1> ts1;
+        private final List<T2> ts2;
+        private final List<T3> ts3;
+        private final List<T4> ts4;
+        private final List<T5> ts5;
+        private final List<T6> ts6;
+        private final List<T7> ts7;
+        private final List<T8> ts8;
+
+        private For8List(List<T1> ts1, List<T2> ts2, List<T3> ts3, List<T4> ts4, List<T5> ts5, List<T6> ts6, List<T7> ts7, List<T8> ts8) {
+            this.ts1 = ts1;
+            this.ts2 = ts2;
+            this.ts3 = ts3;
+            this.ts4 = ts4;
+            this.ts5 = ts5;
+            this.ts6 = ts6;
+            this.ts7 = ts7;
+            this.ts8 = ts8;
+        }
+
+        /**
+         * Yields a result for elements of the cross product of the underlying Lists.
+         *
+         * @param f   a function that maps an element of the cross product to a result
+         * @param <R> type of the resulting {@code List} elements
+         * @return an {@code List} of mapped results
+         */
+        public <R> List<R> yield(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> f) {
+            Objects.requireNonNull(f, "f is null");
+            return
+                    ts1.flatMap(t1 ->
+                            ts2.flatMap(t2 ->
+                                    ts3.flatMap(t3 ->
+                                            ts4.flatMap(t4 ->
+                                                    ts5.flatMap(t5 ->
+                                                            ts6.flatMap(t6 ->
+                                                                    ts7.flatMap(t7 ->
+                                                                            ts8.map(t8 -> f.apply(t1, t2, t3, t4, t5, t6, t7, t8)))))))));
+        }
+
+    }
 
     //
     // Structural Pattern Matching
@@ -5727,7 +5228,7 @@ public final class API {
      * Entry point of the match API.
      *
      * @param value a value to be matched
-     * @param <T> type of the value
+     * @param <T>   type of the value
      * @return a new {@code Match} instance
      */
     public static <T> Match<T> Match(T value) {
@@ -5968,7 +5469,7 @@ public final class API {
      *     return i % 2 == 1;
      * }
      * </code></pre>
-     *
+     * <p>
      * It is also valid to pass {@code Predicate} instances:
      *
      * <pre><code>
@@ -5993,7 +5494,7 @@ public final class API {
      *     Case($(p), 1) // WRONG! It calls $(Predicate)
      * );
      * </code></pre>
-     *
+     * <p>
      * Instead we have to use {@link Predicates#is(Object)}:
      *
      * <pre><code>
@@ -6031,6 +5532,7 @@ public final class API {
 
     /**
      * Scala-like structural pattern matching for Java. Instances are obtained via {@link API#Match(Object)}.
+     *
      * @param <T> type of the object that is matched
      */
     public static final class Match<T> {
@@ -6041,7 +5543,7 @@ public final class API {
             this.value = value;
         }
 
-        @SuppressWarnings({ "unchecked", "varargs" })
+        @SuppressWarnings({"unchecked", "varargs"})
         @SafeVarargs
         public final <R> R of(Case<? extends T, ? extends R>... cases) {
             Objects.requireNonNull(cases, "cases is null");
@@ -6054,7 +5556,7 @@ public final class API {
             throw new MatchError(value);
         }
 
-        @SuppressWarnings({ "unchecked", "varargs" })
+        @SuppressWarnings({"unchecked", "varargs"})
         @SafeVarargs
         public final <R> Option<R> option(Case<? extends T, ? extends R>... cases) {
             Objects.requireNonNull(cases, "cases is null");
@@ -6397,7 +5899,7 @@ public final class API {
                             final Tuple2<U1, U2> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2);
                         } else {
                             return false;
                         }
@@ -6428,8 +5930,8 @@ public final class API {
                             final Tuple3<U1, U2, U3> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
-                                    ((Pattern<U3, ?>) p3).isDefinedAt(u._3);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
+                                            ((Pattern<U3, ?>) p3).isDefinedAt(u._3);
                         } else {
                             return false;
                         }
@@ -6460,9 +5962,9 @@ public final class API {
                             final Tuple4<U1, U2, U3, U4> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
-                                    ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
-                                    ((Pattern<U4, ?>) p4).isDefinedAt(u._4);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
+                                            ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
+                                            ((Pattern<U4, ?>) p4).isDefinedAt(u._4);
                         } else {
                             return false;
                         }
@@ -6493,10 +5995,10 @@ public final class API {
                             final Tuple5<U1, U2, U3, U4, U5> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
-                                    ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
-                                    ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
-                                    ((Pattern<U5, ?>) p5).isDefinedAt(u._5);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
+                                            ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
+                                            ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
+                                            ((Pattern<U5, ?>) p5).isDefinedAt(u._5);
                         } else {
                             return false;
                         }
@@ -6527,11 +6029,11 @@ public final class API {
                             final Tuple6<U1, U2, U3, U4, U5, U6> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
-                                    ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
-                                    ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
-                                    ((Pattern<U5, ?>) p5).isDefinedAt(u._5) &&
-                                    ((Pattern<U6, ?>) p6).isDefinedAt(u._6);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
+                                            ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
+                                            ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
+                                            ((Pattern<U5, ?>) p5).isDefinedAt(u._5) &&
+                                            ((Pattern<U6, ?>) p6).isDefinedAt(u._6);
                         } else {
                             return false;
                         }
@@ -6562,12 +6064,12 @@ public final class API {
                             final Tuple7<U1, U2, U3, U4, U5, U6, U7> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
-                                    ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
-                                    ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
-                                    ((Pattern<U5, ?>) p5).isDefinedAt(u._5) &&
-                                    ((Pattern<U6, ?>) p6).isDefinedAt(u._6) &&
-                                    ((Pattern<U7, ?>) p7).isDefinedAt(u._7);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
+                                            ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
+                                            ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
+                                            ((Pattern<U5, ?>) p5).isDefinedAt(u._5) &&
+                                            ((Pattern<U6, ?>) p6).isDefinedAt(u._6) &&
+                                            ((Pattern<U7, ?>) p7).isDefinedAt(u._7);
                         } else {
                             return false;
                         }
@@ -6598,13 +6100,13 @@ public final class API {
                             final Tuple8<U1, U2, U3, U4, U5, U6, U7, U8> u = unapply.apply(obj);
                             return
                                     ((Pattern<U1, ?>) p1).isDefinedAt(u._1) &&
-                                    ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
-                                    ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
-                                    ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
-                                    ((Pattern<U5, ?>) p5).isDefinedAt(u._5) &&
-                                    ((Pattern<U6, ?>) p6).isDefinedAt(u._6) &&
-                                    ((Pattern<U7, ?>) p7).isDefinedAt(u._7) &&
-                                    ((Pattern<U8, ?>) p8).isDefinedAt(u._8);
+                                            ((Pattern<U2, ?>) p2).isDefinedAt(u._2) &&
+                                            ((Pattern<U3, ?>) p3).isDefinedAt(u._3) &&
+                                            ((Pattern<U4, ?>) p4).isDefinedAt(u._4) &&
+                                            ((Pattern<U5, ?>) p5).isDefinedAt(u._5) &&
+                                            ((Pattern<U6, ?>) p6).isDefinedAt(u._6) &&
+                                            ((Pattern<U7, ?>) p7).isDefinedAt(u._7) &&
+                                            ((Pattern<U8, ?>) p8).isDefinedAt(u._8);
                         } else {
                             return false;
                         }

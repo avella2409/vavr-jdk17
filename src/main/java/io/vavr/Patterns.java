@@ -33,10 +33,6 @@ import io.vavr.collection.Cons;import io.vavr.collection.List;
 import io.vavr.collection.Nil;import io.vavr.concurrent.Future;
 import io.vavr.control.*;
 
-/**
- * @deprecated Will be removed in the next major version, along with VAVR's pattern matching, in favor of Java's native pattern matching.
- */
-@Deprecated
 public final class Patterns {
 
     private Patterns() {

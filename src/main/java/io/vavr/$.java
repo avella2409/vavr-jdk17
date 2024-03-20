@@ -36,9 +36,7 @@ import io.vavr.control.Option;
 /**
  * <strong>INTERNAL TYPE - turned to io.vavr.Patterns by vavr-match annotation processor.</strong>
  *
- * @deprecated Will be removed in the next major version, along with VAVR's pattern matching, in favor of Java's native pattern matching.
  */
-@Deprecated
 class $ {
 
     // -- io.vavr
