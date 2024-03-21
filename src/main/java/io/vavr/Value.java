@@ -45,10 +45,7 @@ import io.vavr.collection.Stream;
 import io.vavr.collection.TreeMap;
 import io.vavr.collection.TreeSet;
 import io.vavr.collection.Vector;
-import io.vavr.control.Either;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
-import io.vavr.control.Validation;
+import io.vavr.control.*;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -589,8 +586,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <U>   value type of a {@code Valid}
      * @param value An instance of a {@code Valid} value
-     * @return A new {@link Validation.Valid} containing the given {@code value} if this is empty, otherwise
-     * a new {@link Validation.Invalid} containing this value.
+     * @return A new {@link Valid} containing the given {@code value} if this is empty, otherwise
+     * a new {@link Invalid} containing this value.
      * @deprecated Use {@link #toValidation(Object)} instead.
      */
     @Deprecated
@@ -603,8 +600,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <U>           value type of a {@code Valid}
      * @param valueSupplier A supplier of a {@code Valid} value
-     * @return A new {@link Validation.Valid} containing the result of {@code valueSupplier} if this is empty,
-     * otherwise a new {@link Validation.Invalid} containing this value.
+     * @return A new {@link Valid} containing the result of {@code valueSupplier} if this is empty,
+     * otherwise a new {@link Invalid} containing this value.
      * @throws NullPointerException if {@code valueSupplier} is null
      * @deprecated Use {@link #toValidation(Supplier)} instead.
      */
@@ -1025,8 +1022,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <R>   right type
      * @param right An instance of a right value
-     * @return A new {@link Either.Right} containing the value of {@code right} if this is empty, otherwise
-     * a new {@link Either.Left} containing this value.
+     * @return A new {@link Right} containing the value of {@code right} if this is empty, otherwise
+     * a new {@link Left} containing this value.
      * @deprecated Use {@link #toEither(Object)} instead.
      */
     @Deprecated
@@ -1039,8 +1036,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <R>   right type
      * @param right A supplier of a right value
-     * @return A new {@link Either.Right} containing the result of {@code right} if this is empty, otherwise
-     * a new {@link Either.Left} containing this value.
+     * @return A new {@link Right} containing the result of {@code right} if this is empty, otherwise
+     * a new {@link Left} containing this value.
      * @throws NullPointerException if {@code right} is null
      * @deprecated Use {@link #toEither(Supplier)} instead.
      */
@@ -1301,8 +1298,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <L>  left type
      * @param left An instance of a left value
-     * @return A new {@link Either.Left} containing the value of {@code left} if this is empty, otherwise
-     * a new {@link Either.Right} containing this value.
+     * @return A new {@link Left} containing the value of {@code left} if this is empty, otherwise
+     * a new {@link Right} containing this value.
      * @deprecated Use {@link #toEither(Object)} instead.
      */
     @Deprecated
@@ -1315,8 +1312,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <L>  left type
      * @param left A supplier of a left value
-     * @return A new {@link Either.Left} containing the result of {@code left} if this is empty, otherwise
-     * a new {@link Either.Right} containing this value.
+     * @return A new {@link Left} containing the result of {@code left} if this is empty, otherwise
+     * a new {@link Right} containing this value.
      * @throws NullPointerException if {@code left} is null
      * @deprecated Use {@link #toEither(Supplier)} instead.
      */
@@ -1440,8 +1437,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <E>   error type of an {@code Invalid}
      * @param error An error
-     * @return A new {@link Validation.Invalid} containing the given {@code error} if this is empty, otherwise
-     * a new {@link Validation.Valid} containing this value.
+     * @return A new {@link Invalid} containing the given {@code error} if this is empty, otherwise
+     * a new {@link Valid} containing this value.
      * @deprecated Use {@link #toValidation(Object)} instead.
      */
     @Deprecated
@@ -1454,8 +1451,8 @@ public interface Value<T> extends Iterable<T> {
      *
      * @param <E>           error type of an {@code Invalid}
      * @param errorSupplier A supplier of an error
-     * @return A new {@link Validation.Invalid} containing the result of {@code errorSupplier} if this is empty,
-     * otherwise a new {@link Validation.Valid} containing this value.
+     * @return A new {@link Invalid} containing the result of {@code errorSupplier} if this is empty,
+     * otherwise a new {@link Valid} containing this value.
      * @throws NullPointerException if {@code valueSupplier} is null
      * @deprecated Use {@link #toValidation(Supplier)} instead.
      */

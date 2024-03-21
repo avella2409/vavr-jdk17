@@ -26,7 +26,7 @@
  */
 package io.vavr.concurrent;
 
-import io.vavr.control.Try;
+import io.vavr.control.*;
 
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -244,7 +244,7 @@ public interface Promise<T> {
     /**
      * Completes this {@code Promise} with the given {@code value}.
      *
-     * @param value Either a {@link Try.Success} containing the result or a {@link Try.Failure} containing an exception.
+     * @param value Either a {@link Success} containing the result or a {@link Failure} containing an exception.
      * @return This {@code Promise}.
      * @throws IllegalStateException if this {@code Promise} has already been completed.
      */
@@ -259,7 +259,7 @@ public interface Promise<T> {
     /**
      * Attempts to completes this {@code Promise} with the given {@code value}.
      *
-     * @param value Either a {@link Try.Success} containing the result or a {@link Try.Failure} containing an exception.
+     * @param value Either a {@link Success} containing the result or a {@link Failure} containing an exception.
      * @return {@code false} if this {@code Promise} has already been completed, {@code true} otherwise.
      * @throws IllegalStateException if this {@code Promise} has already been completed.
      */

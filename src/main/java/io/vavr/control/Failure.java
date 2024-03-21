@@ -20,7 +20,7 @@ public record Failure<T>(Throwable cause) implements Try<T>, Serializable {
      *
      * @param cause A cause of type Throwable, may not be null.
      * @throws NullPointerException if {@code cause} is null
-     * @throws Throwable            if the given {@code cause} is fatal, i.e. non-recoverable
+     * Sneaky @throws Throwable     if the given {@code cause} is fatal, i.e. non-recoverable
      */
     public Failure {
         Objects.requireNonNull(cause, "cause is null");

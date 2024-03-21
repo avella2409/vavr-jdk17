@@ -197,7 +197,6 @@ public sealed interface Validation<E, T> extends Iterable<T>, Value<T>, Serializ
 
     /**
      * A wrapper to {@link #all(Traversable)}.
-     * <p/>
      * Usage example :
      *
      * <pre>{@code

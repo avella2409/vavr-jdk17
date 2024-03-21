@@ -619,7 +619,7 @@ public sealed interface Either<L, R> extends Iterable<R>, io.vavr.Value<R>, Seri
 
     /**
      * Filters this right-biased {@code Either} by testing a predicate.
-     * <p>
+     *
      *
      * @param predicate A predicate
      * @return a new {@code Option} instance
