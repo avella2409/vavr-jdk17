@@ -26,6 +26,8 @@
  */
 package io.vavr.control;
 
+import io.vavr.Boundary;
+import io.vavr.Label;
 import io.vavr.collection.Iterator;
 import io.vavr.collection.Seq;
 import io.vavr.collection.Vector;
@@ -64,6 +66,14 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("deprecation")
 public sealed interface Either<L, R> extends Iterable<R>, io.vavr.Value<R>, Serializable permits Right, Left {
+
+    static <L, R> Either<L, R> from(Function<EitherExtractor<L>, R> body) {
+        return Boundary.apply(label -> right(body.apply(new LabelEitherExtractor<>(label))));
+    }
+
+    default R value(EitherExtractor<L> $) {
+        return $.value(this);
+    }
 
     /**
      * Constructs a {@link Right}
@@ -791,3 +801,20 @@ public sealed interface Either<L, R> extends Iterable<R>, io.vavr.Value<R>, Seri
 
 }
 
+final class LabelEitherExtractor<L> implements EitherExtractor<L> {
+
+    private final Label label;
+
+    LabelEitherExtractor(Label label) {
+        this.label = label;
+    }
+
+    @Override
+    public <R> R value(Either<L, R> either) {
+        if (either.isLeft()) {
+            // Break flow / Short Circuit, go to boundary definition
+            Boundary.breakNow(either, label);
+            return null;
+        } else return either.get();
+    }
+}

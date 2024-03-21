@@ -26,6 +26,8 @@
  */
 package io.vavr.control;
 
+import io.vavr.Boundary;
+import io.vavr.Label;
 import io.vavr.PartialFunction;
 import io.vavr.collection.Iterator;
 import io.vavr.collection.Seq;
@@ -55,6 +57,14 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("deprecation")
 public sealed interface Option<T> extends Iterable<T>, io.vavr.Value<T>, Serializable permits Some, None {
+
+    static <T> Option<T> from(Function<OptionExtractor, T> body) {
+        return Boundary.apply(label -> some(body.apply(new LabelOptionExtractor(label))));
+    }
+
+    default T value(OptionExtractor $) {
+        return $.value(this);
+    }
 
     /**
      * Creates a new {@code Option} of a given value.
@@ -753,5 +763,22 @@ public sealed interface Option<T> extends Iterable<T>, io.vavr.Value<T>, Seriali
         return isEmpty() ? Iterator.empty() : Iterator.of(get());
     }
 
+}
 
+final class LabelOptionExtractor implements OptionExtractor {
+
+    private final Label label;
+
+    public LabelOptionExtractor(Label label) {
+        this.label = label;
+    }
+
+    @Override
+    public <T> T value(Option<T> option) {
+        if (option.isEmpty()) {
+            // Break flow / Short Circuit, go to boundary definition
+            Boundary.breakNow(option, label);
+            return null;
+        } else return option.get();
+    }
 }

@@ -789,6 +789,10 @@ public final class API {
 
     // -- Either
 
+    public static <L, R> Either<L, R> either(Function<EitherExtractor<L>, R> body) {
+        return Either.from(body);
+    }
+
     /**
      * Alias for {@link Either#right(Object)}
      *
@@ -879,6 +883,10 @@ public final class API {
 
     // -- Option
 
+    public static <T> Option<T> option(Function<OptionExtractor, T> body) {
+        return Option.from(body);
+    }
+
     /**
      * Alias for {@link Option#of(Object)}
      *
@@ -912,6 +920,10 @@ public final class API {
     }
 
     // -- Try
+
+    public static <T> Try<T> tryFrom(Function<TryExtractor, T> body) {
+        return Try.from(body);
+    }
 
     /**
      * Alias for {@link Try#of(CheckedFunction0)}
@@ -948,6 +960,10 @@ public final class API {
     }
 
     // -- Validation
+
+    public static <E, T> Validation<E, T> validation(Function<ValidationExtractor<E>, T> body) {
+        return Validation.from(body);
+    }
 
     /**
      * Alias for {@link Validation#valid(Object)}

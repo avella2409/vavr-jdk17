@@ -63,6 +63,14 @@ import static io.vavr.API.Match;
 @SuppressWarnings("deprecation")
 public sealed interface Try<T> extends Iterable<T>, io.vavr.Value<T>, Serializable permits Success, Failure {
 
+    static <T> Try<T> from(Function<TryExtractor, T> body) {
+        return Boundary.apply(label -> success(body.apply(new LabelTryExtractor(label))));
+    }
+
+    default T value(TryExtractor $) {
+        return $.value(this);
+    }
+
     /**
      * Creates a Try of a CheckedFunction0.
      *
@@ -1694,3 +1702,22 @@ interface TryModule {
     }
 
 }
+
+final class LabelTryExtractor implements TryExtractor {
+
+    private final Label label;
+
+    public LabelTryExtractor(Label label) {
+        this.label = label;
+    }
+
+    @Override
+    public <T> T value(Try<T> t) {
+        if (t.isFailure()) {
+            // Break flow / Short Circuit, go to boundary definition
+            Boundary.breakNow(t, label);
+            return null;
+        } else return t.get();
+    }
+}
+

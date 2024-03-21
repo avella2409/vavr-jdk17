@@ -81,6 +81,14 @@ import java.util.function.Supplier;
 @SuppressWarnings("deprecation")
 public sealed interface Validation<E, T> extends Iterable<T>, Value<T>, Serializable permits Valid, Invalid {
 
+    static <E, T> Validation<E, T> from(Function<ValidationExtractor<E>, T> body) {
+        return Boundary.apply(label -> valid(body.apply(new LabelValidationExtractor<>(label))));
+    }
+
+    default T value(ValidationExtractor<E> $) {
+        return $.value(this);
+    }
+
     /**
      * Creates a {@link Valid} that contains the given {@code value}.
      *
@@ -1094,5 +1102,23 @@ public sealed interface Validation<E, T> extends Iterable<T>, Value<T>, Serializ
         public <R> Validation<Seq<E>, R> ap(Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> f) {
             return v8.ap(v7.ap(v6.ap(v5.ap(v4.ap(v3.ap(v2.ap(v1.ap(Validation.valid(f.curried())))))))));
         }
+    }
+}
+
+final class LabelValidationExtractor<E> implements ValidationExtractor<E> {
+
+    private final Label label;
+
+    LabelValidationExtractor(Label label) {
+        this.label = label;
+    }
+
+    @Override
+    public <T> T value(Validation<E, T> validation) {
+        if (validation.isInvalid()) {
+            // Break flow / Short Circuit, go to boundary definition
+            Boundary.breakNow(validation, label);
+            return null;
+        } else return validation.get();
     }
 }
